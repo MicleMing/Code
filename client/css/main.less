@@ -12,13 +12,24 @@ body{
 	margin: 0 auto;
 }
 
+.inner-header, .main, .inner-footer{
+	.center;
+}
+
+@media screen and (min-width:1280px) and (max-width:1440px){
+	.inner-header, .main, .inner-footer{
+		width: 1280px;
+	}
+}
+
+@media screen and (min-width:1440px){
+	.inner-header, .main, .inner-footer{
+		width: 1440px;
+	}
+}
+
 .header{
 	border-bottom: 1px solid #eee;
-
-	.inner-header{
-		.center();
-
-	}
 
 	.title{
 		padding: 20px 0;
@@ -27,8 +38,6 @@ body{
 }
 
 .main{
-	.center();
-
 	margin-top: 20px;
 	padding: 20px 0;
 	min-height: 200px;
@@ -38,9 +47,6 @@ body{
 	margin-top: 20px;
 	padding: 20px 0;
 	height: 40px;
-	.inner-footer{
-		.center();
-	}
 
 	.about{
 		text-align: center;

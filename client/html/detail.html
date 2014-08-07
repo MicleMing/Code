@@ -2,25 +2,49 @@
 <html>
 <head>
 	<title>Code Doctor</title>
-	<script type="text/javascript" src="../js/lib.js"></script>
+	<script type="text/javascript" src="../dep/jquery/dist/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="../css/main.css">
 </head>
 <body>
 
 <header class="header">
 	<div class="inner-header">
-		<h1 class="title">Code Doctor</h1>
+		<h1 class="title">
+			<a href="./index.html">Code Doctor</a>
+		</h1>
 	</div>
 </header>
 
 
+<script type="text/javascript" src="../dep/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../dep/fancytree/dist/jquery.fancytree.min.js"></script>
+<script type="text/javascript" src="../dep/ace-builds/src-min-noconflict/ace.js"></script>
+<link rel="stylesheet" type="text/css" href="../dep/fancytree/dist/skin-lion/ui.fancytree.min.css">
+<link rel="stylesheet" type="text/css" href="../css/detail.css">
+
 <div class="main">
-	<link rel="stylesheet" type="text/css" href="../css/detail.css">
-	<div class="menu-block"></div>
-	<div class="code-block">
-		
+	<div class="menu-block">
+		<div id="menu-tree" class="menu-tree">
+		</div>
+	</div>
+	<div class="detail-block">
+		<div id="code-blocks" class="code-blocks">
+			<ul class="code-tabs">
+				<li class="code-tab"><a href="#jshint-block">JSHint</a></li>
+				<li class="code-tab"><a href="#jscs-block">JSCS</a></li>
+				<li class="code-tab"><a href="#formatted-block">Formatted Diff</a></li>
+			</ul>
+			<div id="jshint-block" class="code-block">
+			</div>
+			<div id="jscs-block" class="code-block">
+			</div>
+			<div id="formatted-block" class="code-block">
+			</div>
+		</div>
 	</div>
 </div>
+
+<script type="text/javascript" src="../js/detail.js"></script>
 
 <footer class="footer">
 	<div class="inner-footer">
