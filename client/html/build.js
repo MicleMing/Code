@@ -43,7 +43,7 @@ cache.register('ls', function(folder){
         return {
             name: name,
             path: p,
-            file: stat.isFile()
+            isFile: stat.isFile()
         };
     });
 });
@@ -65,7 +65,7 @@ var basePath = process.cwd(),
     pagePath = path.join(basePath, 'page'),
     distPath = path.join(basePath, '');
 
-var includePattern = /\<\%\s*include\s*\"([^\"]+)\"\s*\%\>/g;
+var includePattern = /<\%\s*include\s*\"([^\"]+)\"\s*\%\>/g;
 
 // resolve method
 
@@ -91,7 +91,7 @@ var build = function(){
     var pageList = cache.getLs(pagePath);
 
     pageList.forEach(function(item, i){
-        if(item.file){
+        if(item.isFile){
             var distFilePath = path.join(distPath, item.name);
             var resolvedContent = cache.getResolvedContent(item.path);
 
