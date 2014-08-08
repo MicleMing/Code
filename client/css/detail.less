@@ -1,20 +1,110 @@
+@import "define.less";
+
 .main{
+	margin-top: 0;
+	padding-top: 40px;
 	overflow: hidden;
 
 	.menu-block{
 		float: left;
-		width: 30%;
-		height: 300px;
-		margin-right: 5%;
+		width: 28%;
+		min-height: 300px;
+		margin-right: 2%;
 
-		background-color: #f0f0f0;
+		.menu-tree{
+			.fancytree-container{
+				padding: 0;
+				height: 600px;
+				overflow-y: scroll;
+				border: none;
+
+				.transition(.6s);
+
+				&.fancytree-treefocus, &:hover{
+				}
+			}
+
+
+			.fancytree-focused{
+				.fancytree-title{
+					outline: none;
+					color: @highlightColor;
+				}
+			}
+
+			.fancytree-node{
+				margin-bottom: 6px;
+			}
+
+			.fancytree-title{
+				font-weight: bold;
+				color: #333;
+			}
+
+			.fancytree-active, .fancytree-selected{
+				.fancytree-title{
+					background-color: transparent;
+				}
+			}
+
+			.fancytree-treefocus{
+				.fancytree-active, .fancytree-selected{
+					.fancytree-title{
+						background-color: transparent;
+					}
+				}
+			}
+		}
 	}
 
-	.code-block{
+	.detail-block{
 		float: left;
-		width: 65%;
-		height: 300px;
+		width: 70%;
 
-		background-color: #ccc;
+		background-color: #333;
+		color: #f0f0f0;
+
+		.code-blocks{
+			position: relative;
+
+			.code-tabs{
+				@height: 24px;
+				position: absolute;
+				top: -@height;
+				height: @height;
+				overflow: hidden;
+
+				.code-tab{
+					display: inline-block;
+					float: left;
+					padding: 0 10px;
+					height: @height;
+
+					line-height: @height;
+					font-size: 12px;
+					font-weight: bold;
+
+					color: #333;
+
+					a{
+						text-decoration: none;
+					}
+
+					&.ui-state-active{
+						color: #f0f0f0;
+						background-color: #272822;
+					}
+				}
+			}
+
+			.code-block{
+				position: relative;
+				height: 600px;
+
+				font-size: 14px;
+				font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+			}
+
+		}
 	}
 }

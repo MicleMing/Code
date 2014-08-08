@@ -26,3 +26,6 @@ node_modules
 
 # PHPStorm/WebStorm
 .idea
+
+# client dependencies
+client/dep

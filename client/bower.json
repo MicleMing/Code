@@ -1,0 +1,21 @@
+{
+  "name": "code-doctor",
+  "version": "0.0.1",
+  "homepage": "none",
+  "authors": [
+  ],
+  "license": "none",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "dep",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ace-builds": "~1.1.5",
+    "fancytree": "~2.2.0",
+    "jquery": "~2.1.1"
+  }
+}

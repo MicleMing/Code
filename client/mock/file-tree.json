@@ -1,0 +1,29 @@
+[
+	{
+		"title": "index.html",
+		"key": "index.html"
+	},
+	{
+		"title": "index.css",
+		"key": "index.css"
+	},
+	{
+		"title": "index.js",
+		"key": "index.js"
+	},
+	{
+		"title": "image",
+		"key": "image",
+		"folder": true,
+		"children": [
+			{
+				"title": "image1.png",
+				"key": "image/image1.png"
+			},
+			{
+				"title": "image2.png",
+				"key": "image/image2.png"
+			}
+		]
+	}
+]
