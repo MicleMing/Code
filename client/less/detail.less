@@ -5,17 +5,15 @@
 	padding-top: 40px;
 	overflow: hidden;
 
-	.menu-block{
-		float: left;
+	.menu-wrapper{
+		position: absolute;
+		left: 0;
 		width: 28%;
-		min-height: 300px;
-		margin-right: 2%;
 
 		.menu-tree{
 			.fancytree-container{
 				padding: 0;
 				height: 600px;
-				overflow-y: scroll;
 				border: none;
 
 				.transition(.6s);
@@ -57,12 +55,24 @@
 		}
 	}
 
-	.detail-block{
-		float: left;
-		width: 70%;
+	.detail-wrapper{
+		margin-left: 30%;
 
 		background-color: #333;
 		color: #f0f0f0;
+
+		.detail-block{
+			position: relative;
+
+			.left, .right{
+				float: left;
+				width: 49%;
+			}
+
+			.left{
+				margin-right: 2%;
+			}
+		}
 
 		.code-blocks{
 			position: relative;
@@ -102,7 +112,8 @@
 				height: 600px;
 
 				font-size: 14px;
-				font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+
+				.code-font;
 			}
 
 		}

@@ -3,6 +3,7 @@
 <head>
 	<title>Code Doctor</title>
 	<script type="text/javascript" src="../dep/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="../js/util.js"></script>
 	<link rel="stylesheet" type="text/css" href="../css/main.css">
 </head>
 <body>
@@ -23,22 +24,26 @@
 <link rel="stylesheet" type="text/css" href="../css/detail.css">
 
 <div class="main">
-	<div class="menu-block">
+	<div id="menu-wrapper" class="menu-wrapper">
 		<div id="menu-tree" class="menu-tree">
 		</div>
 	</div>
-	<div class="detail-block">
+	<div id="detail-wrapper" class="detail-wrapper">
 		<div id="code-blocks" class="code-blocks">
 			<ul class="code-tabs">
 				<li class="code-tab"><a href="#jshint-block">JSHint</a></li>
 				<li class="code-tab"><a href="#jscs-block">JSCS</a></li>
-				<li class="code-tab"><a href="#formatted-block">Formatted Diff</a></li>
+				<li class="code-tab"><a href="#formatted-diff-block">Formatted Diff</a></li>
 			</ul>
-			<div id="jshint-block" class="code-block">
+			<div id="jshint-block" class="detail-block">
+				<div data-code="jshint" class="code-block"></div>
 			</div>
-			<div id="jscs-block" class="code-block">
+			<div id="jscs-block" class="detail-block">
+				<div data-code="jscs" class="code-block"></div>
 			</div>
-			<div id="formatted-block" class="code-block">
+			<div id="formatted-diff-block" class="detail-block">
+				<div data-code="origin" class="code-block left"></div>
+				<div data-code="formatted" class="code-block right"></div>
 			</div>
 		</div>
 	</div>
