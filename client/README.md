@@ -3,11 +3,11 @@ Client
 
 Client part.
 
-### install dependencies
+### install dependencies (necessary)
 
 	bower install
 
-### build pages
+### build pages (not necessary)
 
 	cd html
 	node build.js
