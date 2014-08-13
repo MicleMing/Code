@@ -340,8 +340,8 @@ $(function(){
                 this.wrapper.html(getTable(this.lines));
             },
             setContent: function(cnt1, cnt2){
-                this.cnt1 = cnt1;
-                this.cnt2 = cnt2;
+                this.cnt1 = cnt1 || '';
+                this.cnt2 = cnt2 || '';
 
                 this.getDiff();
                 this.renderDiff();
