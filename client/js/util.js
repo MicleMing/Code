@@ -85,6 +85,16 @@
         });
     };
 
+    var encodeHTML = function(str){
+        return str.replace(/&/g, "&gt;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/ /g, "&nbsp;")
+            .replace(/\'/g, "'")
+            .replace(/\"/g, "&quot;")
+            .replace(/\n/g, "<br>");
+    };
+
     // export
 
     extend(window, {
@@ -97,7 +107,8 @@
             getExt: getExt,
             observable: observable,
             observer: observable(),
-            render: render
+            render: render,
+            encodeHTML: encodeHTML
         }
     });
 

@@ -136,9 +136,18 @@ $(function(){
     // diff block
     !function(){
         var marks = {
-            normal: '',
-            remove: '-',
-            insert: '+'
+            normal: {
+                title: '',
+                mark: ''
+            },
+            remove: {
+                title: 'removed',
+                mark: '-'
+            },
+            insert: {
+                title: 'inserted',
+                mark: '+'
+            }
         };
 
         var templates = {
@@ -146,8 +155,8 @@ $(function(){
                 table: '<table class="diff-block"><tbody>${cnt}</tbody></table>'
             },
             part: {
-                lineNumber: '<td class="line-num">${cnt}</td>',
-                mark: '<td class="mark">${cnt}</td>'
+                lineNumber: '<td class="line-num">${num}</td>',
+                mark: '<td title="${title}" class="mark">${mark}</td>'
             },
             line: {
                 normal: '<tr id="line-${num}" class="line normal">${parts}<td>${code}</td></tr>',
@@ -166,17 +175,15 @@ $(function(){
             return render(templates.line[line.type], {
                 num: i + 1,
                 parts: [
-                    [templates.part.lineNumber, line.pos1],
-                    [templates.part.lineNumber, line.pos2],
+                    [templates.part.lineNumber, {num: line.pos1}],
+                    [templates.part.lineNumber, {num: line.pos2}],
                     [templates.part.mark, marks[line.type]]
                 ].map(function(arr){
-                    return render(arr[0], {
-                        cnt: arr[1]
-                    });
+                    return render(arr[0], arr[1]);
                 }).join(''),
                 code: line.cnt.map(function(code){
                     return render(templates.code[code.type], {
-                        cnt: code.cnt
+                        cnt: util.encodeHTML(code.cnt)
                     });
                 }).join('')
             });
