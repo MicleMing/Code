@@ -176,11 +176,22 @@
 					&.normal{}
 
 					&.remove{
-						background-color: rgba(70, 5, 5, 0.31);
+						background-color: rgba(190, 130, 130, 0.39);
 					}
 
 					&.insert{
-						background-color: rgba(55, 90, 26, 0.38);
+						background-color: rgba(100, 146, 61, 0.38);
+					}
+
+					&:hover{
+						background-color: rgba(170, 170, 170, 0.1);
+						.line-num{
+							font-weight: bold;
+							color: rgba(255, 255, 255, 0.67);
+						}
+						.code{
+							color: #f0f0f0;
+						}
 					}
 				}
 			}
