@@ -244,6 +244,15 @@ $(function(){
                     curr.prevEnd = start + len;
                 });
 
+                lines1.slice(curr.prevEnd).forEach(function(cnt){
+                    lines.push({
+                        type: 'normal',
+                        cnt: cnt,
+                        pos1: ++curr.pos1,
+                        pos2: ++curr.pos2
+                    });
+                });
+
                 lines.forEach(function(line, i){
                     var prev = lines[i-1],
                         curr = lines[i],
@@ -269,37 +278,47 @@ $(function(){
 
                             var kept = origin.slice(prevEnd, start);
                             if(kept){
-                                originArr.push({
+                                kept = {
                                     type: 'normal',
                                     cnt: kept
-                                });
-
-                                targetArr.push({
-                                    type: 'normal',
-                                    cnt: kept
-                                });
+                                };
+                                originArr.push(kept);
+                                targetArr.push(kept);
                             }
                             
                             var removed = origin.slice(start, start + len);
                             if(removed){
-                                originArr.push({
+                                removed = {
                                     type: 'remove',
                                     cnt: removed
-                                });
+                                };
+                                originArr.push(removed);
                             }
 
                             var inserted = to;
                             if(inserted){
-                                targetArr.push({
+                                inserted = {
                                     type: 'insert',
                                     cnt: inserted
-                                });
+                                };
+
+                                targetArr.push(inserted);
                             }
 
                             prevEnd = start + len;
                         });
 
-                        
+                        var leftKept = origin.slice(prevEnd);
+                        if(leftKept){
+                            leftKept = {
+                                type: 'normal',
+                                cnt: leftKept
+                            };
+
+                            originArr.push(leftKept);
+                            targetArr.push(leftKept);
+                        }
+
                         curr.cnt = originArr;
                         next.cnt = targetArr;
                     }else if(typeof line.cnt === 'string'){
