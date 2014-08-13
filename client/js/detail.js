@@ -135,23 +135,74 @@ $(function(){
 
     // diff block
     !function(){
-        function DiffBlock(wrapper){
-            this.wrapper = wrapper;
-        }
+        var marks = {
+            normal: '',
+            remove: '-',
+            insert: '+'
+        };
 
-        util.extend(DiffBlock.prototype, {
+        var templates = {
+            table: {
+                table: '<table class="diff-block"><tbody>${cnt}</tbody></table>'
+            },
+            part: {
+                lineNumber: '<td class="line-num">${cnt}</td>',
+                mark: '<td class="mark">${cnt}</td>'
+            },
+            line: {
+                normal: '<tr id="line-${num}" class="line normal">${parts}<td>${code}</td></tr>',
+                remove: '<tr id="line-${num}" class="line remove">${parts}<td>${code}</td></tr>',
+                insert: '<tr id="line-${num}" class="line insert">${parts}<td>${code}</td></tr>'
+            },
+            code: {
+                normal: '<span class="code normal">${cnt}</span>',
+                remove: '<span class="code remove">${cnt}</span>',
+                insert: '<span class="code insert">${cnt}</span>'
+            }
+        };
+
+        var render = util.render;
+        var getLine = function(line, i){
+            return render(templates.line[line.type], {
+                num: i + 1,
+                parts: [
+                    [templates.part.lineNumber, line.pos1],
+                    [templates.part.lineNumber, line.pos2],
+                    [templates.part.mark, marks[line.type]]
+                ].map(function(arr){
+                    return render(arr[0], {
+                        cnt: arr[1]
+                    });
+                }).join(''),
+                code: line.cnt.map(function(code){
+                    return render(templates.code[code.type], {
+                        cnt: code.cnt
+                    });
+                }).join('')
+            });
+        };
+        var getTable = function(lines){
+            return render(templates.table.table, {
+                cnt: lines.map(getLine).join('')
+            });
+        };
+
+        var formattedDiffBlock = {
+            init: function(wrapper, cnt1, cnt2){
+                this.wrapper = wrapper;
+                this.setContent(cnt1, cnt2);
+            },
             getDiff: function(){
                 var lines1 = this.cnt1.split('\n');
                 var lines2 = this.cnt2.split('\n');
-                var linesDiff = compare(this.cnt1, this.cnt2, '\n').diff;
 
+                var lines = [];
                 var curr = {
-                    lineNumber1: 0,
-                    lineNumber2: 0,
+                    pos1: 0,
+                    pos2: 0,
                     prevEnd: 0
                 };
-                var lines = [];
-                linesDiff.forEach(function(diff, i){
+                compare(this.cnt1, this.cnt2, '\n').diff.forEach(function(diff, i){
                     var start = diff[0],
                         len = diff[1],
                         to = diff[2];
@@ -159,45 +210,103 @@ $(function(){
                     lines1.slice(curr.prevEnd, start).forEach(function(cnt){
                         lines.push({
                             type: 'normal',
-                            content: cnt,
-                            lineNumber1: ++curr.lineNumber1,
-                            lineNumber2: ++curr.lineNumber2
+                            cnt: cnt,
+                            pos1: ++curr.pos1,
+                            pos2: ++curr.pos2
                         });
                     });
 
                     lines1.slice(start, start + len).forEach(function(cnt){
                         lines.push({
                             type: 'remove',
-                            content: cnt,
-                            lineNumber1: ++curr.lineNumber1,
-                            lineNumber2: '&nbsp;'
+                            cnt: cnt,
+                            pos1: ++curr.pos1,
+                            pos2: ''
                         });
                     });
 
                     to && to.split('\n').forEach(function(cnt){
                         lines.push({
                             type: 'insert',
-                            content: cnt,
-                            lineNumber1: '&nbsp;',
-                            lineNumber2: ++curr.lineNumber2
+                            cnt: cnt,
+                            pos1: '',
+                            pos2: ++curr.pos2
                         });
                     });
 
                     curr.prevEnd = start + len;
                 });
 
+                lines.forEach(function(line, i){
+                    var prev = lines[i-1],
+                        curr = lines[i],
+                        next = lines[i+1],
+                        nnext = lines[i+2];
+
+                    if(
+                        (!prev || prev.type !== 'remove') &&
+                        (curr.type === 'remove') &&
+                        (next.type === 'insert') &&
+                        (!nnext || nnext.type !== 'insert')
+                    ){
+                        var prevEnd = 0,
+                            origin = curr.cnt,
+                            target = next.cnt,
+                            originArr = [],
+                            targetArr = [];
+
+                        compare(curr.cnt, next.cnt).diff.forEach(function(diff, i){
+                            var start = diff[0],
+                                len = diff[1],
+                                to = diff[2];
+
+                            var kept = origin.slice(prevEnd, start);
+                            if(kept){
+                                originArr.push({
+                                    type: 'normal',
+                                    cnt: kept
+                                });
+
+                                targetArr.push({
+                                    type: 'normal',
+                                    cnt: kept
+                                });
+                            }
+                            
+                            var removed = origin.slice(start, start + len);
+                            if(removed){
+                                originArr.push({
+                                    type: 'remove',
+                                    cnt: removed
+                                });
+                            }
+
+                            var inserted = to;
+                            if(inserted){
+                                targetArr.push({
+                                    type: 'insert',
+                                    cnt: inserted
+                                });
+                            }
+
+                            prevEnd = start + len;
+                        });
+
+                        
+                        curr.cnt = originArr;
+                        next.cnt = targetArr;
+                    }else if(typeof line.cnt === 'string'){
+                        line.cnt = [{
+                            type: 'normal',
+                            cnt: line.cnt
+                        }];
+                    }
+                });
+
                 this.lines = lines;
             },
             renderDiff: function(){
-                var marks = {
-                    normal: '&nbsp;',
-                    remove: '-',
-                    insert: '+'
-                };
-
-                this.wrapper.html(this.lines.map(function(line){
-                    return [marks[line.type], line.lineNumber1, line.lineNumber2, line.content].join('\t') + '<br/>';
-                }));
+                this.wrapper.html(getTable(this.lines));
             },
             setContent: function(cnt1, cnt2){
                 this.cnt1 = cnt1;
@@ -206,9 +315,7 @@ $(function(){
                 this.getDiff();
                 this.renderDiff();
             }
-        });
-
-        var formattedDiffBlock = new DiffBlock($('#formatted-diff-code'));
+        };
 
         var getFormattedPath = function(path){
             return path.replace(/(\.\w+){0,1}$/, function(ext){
@@ -225,7 +332,7 @@ $(function(){
             });
         });
 
-        formattedDiffBlock.setContent('aaa\nbbb', 'bbb\nccc\nddd');
+        formattedDiffBlock.init($('#formatted-diff-code'), 'aaa\nbbb\nccbdekf', 'bbb\nccc9832');
     }();
 
 });
