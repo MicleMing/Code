@@ -3,9 +3,6 @@ $(function(){
     // global observer
     var observer = util.observer;
 
-    // content-diff methd
-    var compare = diff.compare;
-
     // layout
     !function(){
         var menuWrapper = $('#menu-wrapper');
@@ -135,6 +132,10 @@ $(function(){
 
     // diff block
     !function(){
+        var compare = diff.compare;
+
+        var render = util.render;
+
         var marks = {
             normal: {
                 title: '',
@@ -151,45 +152,37 @@ $(function(){
         };
 
         var templates = {
-            table: {
-                table: '<table class="diff-block"><tbody>${cnt}</tbody></table>'
-            },
-            part: {
-                lineNumber: '<td class="line-num">${num}</td>',
-                mark: '<td title="${title}" class="mark">${mark}</td>'
-            },
-            line: {
-                normal: '<tr id="line-${num}" class="line normal">${parts}<td>${code}</td></tr>',
-                remove: '<tr id="line-${num}" class="line remove">${parts}<td>${code}</td></tr>',
-                insert: '<tr id="line-${num}" class="line insert">${parts}<td>${code}</td></tr>'
-            },
-            code: {
-                normal: '<span class="code normal">${cnt}</span>',
-                remove: '<span class="code remove">${cnt}</span>',
-                insert: '<span class="code insert">${cnt}</span>'
-            }
+            table: '<table class="diff-block"><tbody>${cnt}</tbody></table>',
+            line: '<tr id="line-${num}" class="line ${type}">${parts}<td>${code}</td></tr>',
+            lineNumber: '<td class="line-num">${num}</td>',
+            mark: '<td title="${title}" class="mark">${mark}</td>',
+            code: '<span class="code ${type}">${cnt}</span>'
         };
 
-        var render = util.render;
         var getLine = function(line, i){
-            return render(templates.line[line.type], {
+            return render(templates.line, {
                 num: i + 1,
+                type: line.type,
+
                 parts: [
-                    [templates.part.lineNumber, {num: line.pos1}],
-                    [templates.part.lineNumber, {num: line.pos2}],
-                    [templates.part.mark, marks[line.type]]
+                    [templates.lineNumber, {num: line.pos1}],
+                    [templates.lineNumber, {num: line.pos2}],
+                    [templates.mark, marks[line.type]]
                 ].map(function(arr){
                     return render(arr[0], arr[1]);
                 }).join(''),
+
                 code: line.cnt.map(function(code){
-                    return render(templates.code[code.type], {
+                    return render(templates.code, {
+                        type: code.type,
                         cnt: util.encodeHTML(code.cnt)
                     });
                 }).join('')
             });
         };
+
         var getTable = function(lines){
-            return render(templates.table.table, {
+            return render(templates.table, {
                 cnt: lines.map(getLine).join('')
             });
         };
