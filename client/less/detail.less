@@ -58,7 +58,6 @@
 	.detail-wrapper{
 		margin-left: 30%;
 
-		background-color: #333;
 		color: #f0f0f0;
 
 		.detail-block{
@@ -109,12 +108,81 @@
 
 			.code-block{
 				position: relative;
-				height: 600px;
 				overflow: auto;
 
+				background-color: #272822;
 				font-size: 14px;
 
 				.code-font;
+			}
+
+			.editer-wrapper{
+				height: 600px;
+			}
+
+			.diff-block{
+				.code-font;
+
+				border-collapse: separate;
+
+				td{
+					padding-left: 8px;
+					padding-right: 8px;
+					vertical-align: top;
+
+					color: rgba(255,255,255,0.5);
+					font-size: 12px;
+					line-height: 18px;
+
+					border: 0px solid rgba(255,255,255,0.5);
+				}
+
+				.line-num{
+					width: 1%;
+
+					border-width: 0 1px 0 0;
+					text-align: right;
+					//cursor: pointer;
+					.select-none;
+
+					background-color: rgba(196, 196, 196, 0.06);
+				}
+
+				.mark{
+					width: 0.5%;
+					padding-right: 0;
+				}
+
+				.code{
+					color: #ccc;
+					&.normal{
+
+					}
+
+					&.remove{
+						color: #fff;
+						background-color: rgba(233, 96, 96, 0.72);
+					}
+
+					&.insert{
+						color: #fff;
+						background-color: rgba(124, 228, 42, 0.59);
+					}
+				}
+
+				.line{
+					&.normal{
+
+					}
+
+					&.remove{
+						background-color: rgba(70, 5, 5, 0.31);
+					}
+
+					&.insert{
+						background-color: rgba(55, 90, 26, 0.38);
+					}
+				}
 			}
 
 		}

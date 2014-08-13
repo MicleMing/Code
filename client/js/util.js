@@ -79,6 +79,12 @@
         });
     };
 
+    var render = function(template, vars){
+        return template.replace(/\$\{([^\{\}]*)\}/g, function(_, name){
+            return vars[name.trim()] || '';
+        });
+    };
+
     // export
 
     extend(window, {
@@ -90,7 +96,8 @@
             extend: extend,
             getExt: getExt,
             observable: observable,
-            observer: observable()
+            observer: observable(),
+            render: render
         }
     });
 
