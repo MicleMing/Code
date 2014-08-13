@@ -199,16 +199,18 @@ $(function(){
                 this.wrapper = wrapper;
                 this.setContent(cnt1, cnt2);
             },
-            getDiff: function(){
-                var lines1 = this.cnt1.split('\n');
-                var lines2 = this.cnt2.split('\n');
+            getLinesDiff: function(){
+                var lines1 = this.cnt1.split('\n'),
+                    lines2 = this.cnt2.split('\n'),
+                    lines = [];
 
-                var lines = [];
                 var curr = {
                     pos1: 0,
                     pos2: 0,
                     prevEnd: 0
                 };
+
+                // deal with diffs
                 compare(this.cnt1, this.cnt2, '\n').diff.forEach(function(diff, i){
                     var start = diff[0],
                         len = diff[1],
@@ -244,6 +246,7 @@ $(function(){
                     curr.prevEnd = start + len;
                 });
 
+                // same content after the last diff
                 lines1.slice(curr.prevEnd).forEach(function(cnt){
                     lines.push({
                         type: 'normal',
@@ -252,6 +255,11 @@ $(function(){
                         pos2: ++curr.pos2
                     });
                 });
+
+                this.lines = lines;
+            },
+            getInlineDiff: function(){
+                var lines = this.lines;
 
                 lines.forEach(function(line, i){
                     var prev = lines[i-1],
@@ -330,6 +338,10 @@ $(function(){
                 });
 
                 this.lines = lines;
+            },
+            getDiff: function(){
+                this.getLinesDiff();
+                this.getInlineDiff();
             },
             renderDiff: function(){
                 this.wrapper.html(getTable(this.lines));
