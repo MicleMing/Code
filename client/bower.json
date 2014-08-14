@@ -17,6 +17,6 @@
     "ace-builds": "~1.1.5",
     "fancytree": "~2.2.0",
     "jquery": "~2.1.1",
-    "diff-merge": "~1.0.0"
+    "diff-merge": "~1.0.1"
   }
 }

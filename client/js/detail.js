@@ -187,6 +187,9 @@ $(function(){
             });
         };
 
+        // split method ( simple / participle )
+        var split = util.participle;
+
         var formattedDiffBlock = {
             init: function(wrapper, cnt1, cnt2){
                 this.wrapper = wrapper;
@@ -267,17 +270,17 @@ $(function(){
                         (!nnext || nnext.type !== 'insert')
                     ){
                         var prevEnd = 0,
-                            origin = curr.cnt,
-                            target = next.cnt,
+                            origin = split(curr.cnt),
+                            target = split(next.cnt),
                             originArr = [],
                             targetArr = [];
 
-                        compare(curr.cnt, next.cnt).diff.forEach(function(diff, i){
+                        compare(curr.cnt, next.cnt, split).diff.forEach(function(diff, i){
                             var start = diff[0],
                                 len = diff[1],
                                 to = diff[2];
 
-                            var kept = origin.slice(prevEnd, start);
+                            var kept = origin.slice(prevEnd, start).join('');
                             if(kept){
                                 kept = {
                                     type: 'normal',
@@ -287,7 +290,7 @@ $(function(){
                                 targetArr.push(kept);
                             }
                             
-                            var removed = origin.slice(start, start + len);
+                            var removed = origin.slice(start, start + len).join('');
                             if(removed){
                                 removed = {
                                     type: 'remove',
@@ -309,7 +312,7 @@ $(function(){
                             prevEnd = start + len;
                         });
 
-                        var leftKept = origin.slice(prevEnd);
+                        var leftKept = origin.slice(prevEnd).join('');
                         if(leftKept){
                             leftKept = {
                                 type: 'normal',
