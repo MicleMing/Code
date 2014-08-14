@@ -1,0 +1,46 @@
+{
+    "value-string":     "yanyinhong",
+    "value-true":   true,
+    "value-false":    false,
+    "value-number":    100,
+    "value-string2":   "string",
+    "value-array":    [
+        "select1",
+        "select2",
+        "select3",
+        "select4",
+        "select5"
+        ], 
+    "value-nothing":  null,
+    "object":   {
+        "obj-string":     "yanyinhong",
+        "obj-true":   true,
+        "obj-false":    false,
+        "obj-number":    100,
+        "obj-string":   "string",
+        "obj-array":    [
+            "select1",
+            "select2",
+            "select3",
+            "select4",
+            "select5"
+            ],
+        "obj-nothing": null,
+        "oobject": {
+            "obj-string":     "yanyinhong",
+            "obj-true":   true,
+            "obj-false":    false,
+            "obj-number":    100,
+            "obj-string":   "string",
+            "obj-array":    [
+                "select1",
+                "select2",
+                "select3",
+                "select4",
+                "select5"
+                ],
+            "obj-nothing": null,
+            "ooobject": {}
+        }
+    }
+}
