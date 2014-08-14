@@ -3,7 +3,6 @@
 .main{
 	margin-top: 0;
 	padding-top: 40px;
-	overflow: hidden;
 
 	.menu-wrapper{
 		position: absolute;
@@ -109,6 +108,7 @@
 			.code-block{
 				position: relative;
 				overflow: auto;
+				max-height: 600px;
 
 				background-color: #272822;
 				font-size: 14px;
@@ -126,19 +126,19 @@
 				border-collapse: separate;
 
 				td{
-					padding-left: 8px;
-					padding-right: 8px;
 					vertical-align: top;
 
 					color: rgba(255,255,255,0.5);
 					font-size: 12px;
 					line-height: 18px;
 
-					border: 0px solid rgba(255,255,255,0.5);
+					border: 0px solid rgba(255,255,255,0.1);
 				}
 
 				.line-num{
 					width: 1%;
+					padding-left: 8px;
+					padding-right: 8px;
 
 					border-width: 0 1px 0 0;
 					text-align: right;
@@ -150,14 +150,16 @@
 
 				.mark{
 					width: 0.5%;
-					padding-right: 0;
+					padding-left: 8px;
+					padding-right: 8px;
+					cursor: default;
 				}
 
 				.code{
-					color: #ccc;
-					&.normal{
+					color: #ddd;
+					white-space: pre;
 
-					}
+					&.normal{}
 
 					&.remove{
 						color: #fff;
@@ -171,16 +173,25 @@
 				}
 
 				.line{
-					&.normal{
-
-					}
+					&.normal{}
 
 					&.remove{
-						background-color: rgba(70, 5, 5, 0.31);
+						background-color: rgba(190, 130, 130, 0.39);
 					}
 
 					&.insert{
-						background-color: rgba(55, 90, 26, 0.38);
+						background-color: rgba(100, 146, 61, 0.38);
+					}
+
+					&:hover{
+						background-color: rgba(170, 170, 170, 0.1);
+						.line-num{
+							font-weight: bold;
+							color: rgba(255, 255, 255, 0.67);
+						}
+						.code{
+							color: #f0f0f0;
+						}
 					}
 				}
 			}

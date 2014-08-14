@@ -85,6 +85,43 @@
         });
     };
 
+    var encodeHTML = function(str){
+        return str.replace(/&/g, "&gt;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/ /g, "&nbsp;")
+            .replace(/\'/g, "'")
+            .replace(/\"/g, "&quot;")
+            .replace(/\n/g, "<br>");
+    };
+
+    // simple split
+    var simpleSplit = function(cnt){
+        return cnt.split('');
+    };
+
+    // participle code / word
+    var participle = function(cnt){
+        var arr = [];
+        for(var i = 1, l = cnt.length, pos = 0; i < l; i++){
+            var isPlainPattern = /[\w\_\$]+/,
+                isPrevPlain = isPlainPattern.test(cnt[i-1]),
+                isPlain = isPlainPattern.test(cnt[i]);
+
+            if(
+                !(isPrevPlain && isPlain)
+            ){
+                arr.push(cnt.slice(pos, i));
+                pos = i;
+            }
+
+            if(i === l-1){
+                arr.push(cnt.slice(pos));
+            }
+        }
+        return arr;
+    };
+
     // export
 
     extend(window, {
@@ -97,7 +134,10 @@
             getExt: getExt,
             observable: observable,
             observer: observable(),
-            render: render
+            render: render,
+            encodeHTML: encodeHTML,
+            simpleSplit: simpleSplit,
+            participle: participle
         }
     });
 

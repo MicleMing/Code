@@ -3,9 +3,6 @@ $(function(){
     // global observer
     var observer = util.observer;
 
-    // content-diff methd
-    var compare = diff.compare;
-
     // layout
     !function(){
         var menuWrapper = $('#menu-wrapper');
@@ -135,73 +132,81 @@ $(function(){
 
     // diff block
     !function(){
-        var marks = {
-            normal: '',
-            remove: '-',
-            insert: '+'
-        };
+        var compare = diff.compare;
 
-        var templates = {
-            table: {
-                table: '<table class="diff-block"><tbody>${cnt}</tbody></table>'
+        var render = util.render;
+
+        var marks = {
+            normal: {
+                title: '',
+                mark: ''
             },
-            part: {
-                lineNumber: '<td class="line-num">${cnt}</td>',
-                mark: '<td class="mark">${cnt}</td>'
+            remove: {
+                title: 'removed',
+                mark: '-'
             },
-            line: {
-                normal: '<tr id="line-${num}" class="line normal">${parts}<td>${code}</td></tr>',
-                remove: '<tr id="line-${num}" class="line remove">${parts}<td>${code}</td></tr>',
-                insert: '<tr id="line-${num}" class="line insert">${parts}<td>${code}</td></tr>'
-            },
-            code: {
-                normal: '<span class="code normal">${cnt}</span>',
-                remove: '<span class="code remove">${cnt}</span>',
-                insert: '<span class="code insert">${cnt}</span>'
+            insert: {
+                title: 'inserted',
+                mark: '+'
             }
         };
 
-        var render = util.render;
+        var templates = {
+            table: '<table class="diff-block"><tbody>${cnt}</tbody></table>',
+            line: '<tr id="line-${num}" class="line ${type}">${parts}<td>${code}</td></tr>',
+            lineNumber: '<td class="line-num">${num}</td>',
+            mark: '<td title="${title}" class="mark">${mark}</td>',
+            code: '<span class="code ${type}">${cnt}</span>'
+        };
+
         var getLine = function(line, i){
-            return render(templates.line[line.type], {
+            return render(templates.line, {
                 num: i + 1,
+                type: line.type,
+
                 parts: [
-                    [templates.part.lineNumber, line.pos1],
-                    [templates.part.lineNumber, line.pos2],
-                    [templates.part.mark, marks[line.type]]
+                    [templates.lineNumber, {num: line.pos1}],
+                    [templates.lineNumber, {num: line.pos2}],
+                    [templates.mark, marks[line.type]]
                 ].map(function(arr){
-                    return render(arr[0], {
-                        cnt: arr[1]
-                    });
+                    return render(arr[0], arr[1]);
                 }).join(''),
+
                 code: line.cnt.map(function(code){
-                    return render(templates.code[code.type], {
-                        cnt: code.cnt
+                    return render(templates.code, {
+                        type: code.type,
+                        cnt: util.encodeHTML(code.cnt)
                     });
                 }).join('')
             });
         };
+
         var getTable = function(lines){
-            return render(templates.table.table, {
+            return render(templates.table, {
                 cnt: lines.map(getLine).join('')
             });
         };
+
+        // split method ( simple / participle )
+        var split = util.participle;
 
         var formattedDiffBlock = {
             init: function(wrapper, cnt1, cnt2){
                 this.wrapper = wrapper;
                 this.setContent(cnt1, cnt2);
             },
-            getDiff: function(){
-                var lines1 = this.cnt1.split('\n');
-                var lines2 = this.cnt2.split('\n');
+            getLinesDiff: function(){
+                var lines1 = this.cnt1.split('\n'),
+                    lines2 = this.cnt2.split('\n'),
+                    lines = [];
 
-                var lines = [];
                 var curr = {
                     pos1: 0,
                     pos2: 0,
                     prevEnd: 0
                 };
+
+                // deal with diffs
                 compare(this.cnt1, this.cnt2, '\n').diff.forEach(function(diff, i){
                     var start = diff[0],
                         len = diff[1],
@@ -237,6 +242,21 @@ $(function(){
                     curr.prevEnd = start + len;
                 });
 
+                // same content after the last diff
+                lines1.slice(curr.prevEnd).forEach(function(cnt){
+                    lines.push({
+                        type: 'normal',
+                        cnt: cnt,
+                        pos1: ++curr.pos1,
+                        pos2: ++curr.pos2
+                    });
+                });
+
+                this.lines = lines;
+            },
+            getInlineDiff: function(){
+                var lines = this.lines;
+
                 lines.forEach(function(line, i){
                     var prev = lines[i-1],
                         curr = lines[i],
@@ -250,49 +270,59 @@ $(function(){
                         (!nnext || nnext.type !== 'insert')
                     ){
                         var prevEnd = 0,
-                            origin = curr.cnt,
-                            target = next.cnt,
+                            origin = split(curr.cnt),
+                            target = split(next.cnt),
                             originArr = [],
                             targetArr = [];
 
-                        compare(curr.cnt, next.cnt).diff.forEach(function(diff, i){
+                        compare(curr.cnt, next.cnt, split).diff.forEach(function(diff, i){
                             var start = diff[0],
                                 len = diff[1],
                                 to = diff[2];
 
-                            var kept = origin.slice(prevEnd, start);
+                            var kept = origin.slice(prevEnd, start).join('');
                             if(kept){
-                                originArr.push({
+                                kept = {
                                     type: 'normal',
                                     cnt: kept
-                                });
-
-                                targetArr.push({
-                                    type: 'normal',
-                                    cnt: kept
-                                });
+                                };
+                                originArr.push(kept);
+                                targetArr.push(kept);
                             }
                             
-                            var removed = origin.slice(start, start + len);
+                            var removed = origin.slice(start, start + len).join('');
                             if(removed){
-                                originArr.push({
+                                removed = {
                                     type: 'remove',
                                     cnt: removed
-                                });
+                                };
+                                originArr.push(removed);
                             }
 
                             var inserted = to;
                             if(inserted){
-                                targetArr.push({
+                                inserted = {
                                     type: 'insert',
                                     cnt: inserted
-                                });
+                                };
+
+                                targetArr.push(inserted);
                             }
 
                             prevEnd = start + len;
                         });
 
-                        
+                        var leftKept = origin.slice(prevEnd).join('');
+                        if(leftKept){
+                            leftKept = {
+                                type: 'normal',
+                                cnt: leftKept
+                            };
+
+                            originArr.push(leftKept);
+                            targetArr.push(leftKept);
+                        }
+
                         curr.cnt = originArr;
                         next.cnt = targetArr;
                     }else if(typeof line.cnt === 'string'){
@@ -305,12 +335,16 @@ $(function(){
 
                 this.lines = lines;
             },
+            getDiff: function(){
+                this.getLinesDiff();
+                this.getInlineDiff();
+            },
             renderDiff: function(){
                 this.wrapper.html(getTable(this.lines));
             },
             setContent: function(cnt1, cnt2){
-                this.cnt1 = cnt1;
-                this.cnt2 = cnt2;
+                this.cnt1 = cnt1 || '';
+                this.cnt2 = cnt2 || '';
 
                 this.getDiff();
                 this.renderDiff();
