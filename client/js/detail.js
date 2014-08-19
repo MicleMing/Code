@@ -266,7 +266,7 @@ $(function(){
                     if(
                         (!prev || prev.type !== 'remove') &&
                         (curr.type === 'remove') &&
-                        (next.type === 'insert') &&
+                        (next && next.type === 'insert') &&
                         (!nnext || nnext.type !== 'insert')
                     ){
                         var prevEnd = 0,
