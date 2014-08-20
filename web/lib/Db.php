@@ -10,7 +10,7 @@ class Db
 
     private function __construct()
     {
-        $dbName = 'TestCompany';
+        $dbName = 'CodeDoctor';
 
         $host = '127.0.0.1';
         $port = '27017';
@@ -70,8 +70,8 @@ class Db
     }
 }
 
-$collection = Db::getInstance()->getCollection('testData');
-$cursor = $collection->find();
-foreach ($cursor as $data) {
-    var_dump($data);
-}
+//$collection = Db::getInstance()->getCollection('testData');
+//$cursor = $collection->find();
+//foreach ($cursor as $data) {
+//    var_dump($data);
+//}

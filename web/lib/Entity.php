@@ -1,0 +1,151 @@
+<?php
+class Entity
+{
+    /**
+     * @var int
+     */
+    protected $_id;
+
+    protected static $class = __CLASS__;
+
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->_id = $id;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->_id;
+    }
+
+    public function save()
+    {
+        include_once 'Db.php';
+        $collectionName = strtolower(get_class($this));
+        $collection = Db::getInstance()->getCollection($collectionName);
+
+        if (isset($this->_id)) {
+            $entity = $collection->findOne(array('_id' => $this->_id));
+            if ($entity) {
+                $data = $this->toArray();
+                foreach ($data as $key => $value) {
+                    $entity[$key] = $value;
+                }
+                $collection->save($entity);
+            }
+        } else {
+            $this->_id = Db::getInstance()->autoIncrement($collectionName);
+            $collection->insert($this->toArray());
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        $array = get_object_vars($this);
+        $array['id'] = $array['_id'];
+        return $array;
+    }
+
+    /**
+     * @param $array
+     * @return $this
+     */
+    public function fromArray($array)
+    {
+        $tplArray = $this->toArray();
+        foreach ($tplArray as $key => $value) {
+            $methodName = 'set' . ucfirst($key);
+            if (isset($array[$key]) && method_exists($this, $methodName)) {
+                $this->$methodName($array[$key]);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @param int $id
+     * @return mixed
+     */
+    public static function getById($id)
+    {
+        include_once 'Db.php';
+        $name = strtolower(static::$class);
+        $collection = Db::getInstance()->getCollection($name);
+
+        $result = null;
+
+        $data = $collection->findOne(array('_id' => $id));
+
+        if ($data) {
+            $className = ucfirst($name);
+            /**
+             * @var Entity $entity
+             */
+            $entity = new $className();
+            $vars = $entity->toArray();
+            foreach ($vars as $key => $value) {
+                if ($key == '_id') {
+                    $entity->setId($data['_id']);
+                } elseif ($key != 'id') {
+                    $methodName = 'set' . ucfirst($key);
+                    $entity->$methodName($data[$key]);
+                }
+            }
+
+            $result = $entity;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getAll()
+    {
+        include_once 'Db.php';
+        $name = strtolower(static::$class);
+        $collection = Db::getInstance()->getCollection($name);
+
+        $result = array();
+
+        $cursor = $collection->find();
+
+        if ($cursor) {
+            $cursor->sort(array('_id' => 1));
+
+            $className = ucfirst($name);
+            foreach ($cursor as $data) {
+                /**
+                 * @var Entity $entity
+                 */
+                $entity = new $className();
+                $vars = $entity->toArray();
+                foreach ($vars as $key => $value) {
+                    if ($key == '_id') {
+                        $entity->setId($data['_id']);
+                    } elseif ($key != 'id') {
+                        $methodName = 'set' . ucfirst($key);
+                        $entity->$methodName($data[$key]);
+                    }
+                }
+                array_push($result, $entity);
+            }
+        }
+
+        return $result;
+    }
+}
