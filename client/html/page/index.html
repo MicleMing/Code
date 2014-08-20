@@ -3,11 +3,17 @@
 <div class="main">
 	<link rel="stylesheet" type="text/css" href="../css/index.css">
 	<div class="main-content">
-		<form action="./overview.html" method="get">
-			<input class="addr-in" type="text" name="attr" placeholder="SVN ADDRESS" />
-			<button class="submit" type="submit">Check</button>
+		<form class="inputs" action="./overview.html" method="post" enctype="multipart/form-data">
+			<input id="addr-in" class="input addr-in" type="text" name="address" placeholder="SVN/GIT ADDRESS OR ZIP/JS FILE" >
+			<span class="file">
+				<svg class="icon icon-out" viewBox="0 0 32 32"><use xlink:href="#icon-out"></use></svg>
+				<input id="file-in" class="input file-in" type="file" name="file">
+			</span>
+			<button class="input submit" type="submit">Check</button>
 		</form>
 	</div>
 </div>
+
+<script type="text/javascript" src="../js/index.js"></script>
 
 <% include "../common/foot" %>

@@ -6,20 +6,60 @@
 
 		text-align: center;
 
-		.addr-in, .submit{
-			height: 24px;
-			line-height: 24px;
-			padding: 10px;
+		.inputs{
+			position: relative;
+
+			.inline-block;
+			width: 600px;
+
+			.input{
+				.inline-block;
+				height: 24px;
+				line-height: 24px;
+				padding: 10px;
+
+				//vertical-align: middle;
+				float: left;
+			}
+
+			.addr-in{
+				width: 470px;
+				.code-font;
+			}
+
+			.file{
+				position: absolute;
+				left: 446px;
+
+				width: 44px;
+				height: 44px;
+				line-height: 44px;
+
+				text-align: center;
+
+				overflow: hidden;
+
+				//.code-font;
+
+				.icon{
+					width: 16px;
+					height: 16px;
+					fill: #666;
+				}
+
+				.file-in{
+					position: absolute;
+					left: 0;
+					top: 0;
+					opacity: 0;
+				}
+			}
+
+			.submit{
+				width: 90px;
+			}
 		}
 
-		.addr-in{
-			width: 500px;
-			.code-font;
-		}
-
-		.submit{
-			width: 80px;
-			margin-left: 10px;
-		}
+		
 	}
 }
