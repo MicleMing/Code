@@ -2,11 +2,13 @@ $(function(){
 
     // file uploader
     !function(){
+
         var fileInput = $('#file-in'),
             addrInput = $('#addr-in');
 
-        var validExts = ['zip', 'js', 'md'];
+        var validExts = ['zip', 'js'];
 
+        // switch mode based on file selected or not
         var updateInput = function(filePath){
             if(filePath){
                 var name = /([^\/\\]+)$/.exec(filePath)[1];
@@ -18,6 +20,7 @@ $(function(){
             }
         };
 
+        // validate
         fileInput.on('change', function(e){
             if(!this.value){
                 return;
@@ -33,9 +36,11 @@ $(function(){
             }
         });
 
+        // respond to file select
         fileInput.on('change', function(e){
             updateInput(this.value);
         });
+
     }();
 
 });
