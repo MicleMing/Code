@@ -3,12 +3,13 @@
 <div class="main">
 	<link rel="stylesheet" type="text/css" href="../css/index.css">
 	<div class="main-content">
-		<form class="inputs" action="./overview.html" method="post" enctype="multipart/form-data">
-			<input id="addr-in" class="input addr-in" type="text" name="address" placeholder="SVN/GIT ADDRESS OR ZIP/JS FILE" >
-			<span class="file">
+		<form id="form" class="inputs" action="./overview.html" method="post" enctype="multipart/form-data">
+			<input id="url-in" class="input url-in" type="url" name="url" placeholder="SVN/GIT ADDRESS OR ZIP/JS FILE" autofocus>
+			<span id="file-btn" class="input file">
 				<svg class="icon icon-out" viewBox="0 0 32 32"><use xlink:href="#icon-out"></use></svg>
 				<input id="file-in" class="input file-in" type="file" name="file">
 			</span>
+			<span id="file-name" class="input file-name"></span>
 			<button class="input submit" type="submit">Check</button>
 		</form>
 	</div>

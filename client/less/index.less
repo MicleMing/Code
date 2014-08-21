@@ -22,24 +22,22 @@
 				float: left;
 			}
 
-			.addr-in{
-				width: 470px;
+			.url-in{
+				width: 436px;
+				padding-right: 44px;
 				.code-font;
 			}
 
 			.file{
 				position: absolute;
 				left: 446px;
-
-				width: 44px;
-				height: 44px;
-				line-height: 44px;
+				width: 24px;
+				line-height: 24px;
 
 				text-align: center;
-
 				overflow: hidden;
 
-				//.code-font;
+				//background-color: #f0f0f0;
 
 				.icon{
 					width: 16px;
@@ -51,8 +49,20 @@
 					position: absolute;
 					left: 0;
 					top: 0;
-					opacity: 0;
+					.transparent(0);
 				}
+			}
+
+			.file-name{
+				display: none;
+				position: absolute;
+				left: 0;
+
+				width: 426px;
+
+				background-color: #f0f0f0;
+				text-align: left;
+				.code-font;
 			}
 
 			.submit{

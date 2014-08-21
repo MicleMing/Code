@@ -22,3 +22,17 @@
 	-moz-user-select: none;
 	user-select: none;
 }
+
+.transparent(@p){
+    -moz-opacity: @p;
+    -khtml-opacity: @p; 
+    opacity: @p;
+}
+
+.blur(@r){
+    -webkit-filter: blur(@r);
+    -moz-filter: blur(@r);
+    -o-filter: blur(@r);
+    -ms-filter: blur(@r);
+    filter: blur(@r);
+}
