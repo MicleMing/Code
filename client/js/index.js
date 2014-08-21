@@ -9,7 +9,7 @@ $(function(){
             fileInput = $('#file-in'),
             urlInput = $('#url-in');
 
-        var validExts = ['zip', 'js', 'md'];
+        var validExts = ['zip', 'js'];
 
         // set accepted file types
         fileInput.attr('accept', '.' + validExts.join(',.'));
