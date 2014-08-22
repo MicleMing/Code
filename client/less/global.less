@@ -28,7 +28,7 @@ ul, ol{
     list-style: none;
 }
 
-input[type="text"], input[type="password"], div[contentEditable="true"], button{
+input[type="text"], input[type="password"], input[type="url"], div[contentEditable="true"], button{
     padding: 9px 8px;
     margin: 0;
 
@@ -52,6 +52,10 @@ input[type="text"], input[type="password"], div[contentEditable="true"], button{
 
     &:focus, &.active{
         outline: none;
+    }
+
+    &:invalid, &.invalid{
+        background-color: rgba(255, 6, 6, 0.1);
     }
 }
 
@@ -102,4 +106,9 @@ a{
 table {
     border-collapse: collapse;
     border-spacing: 0;
+}
+
+.icon{
+    vertical-align: baseline;
+    fill: #333;
 }

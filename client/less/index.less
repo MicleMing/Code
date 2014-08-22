@@ -6,20 +6,70 @@
 
 		text-align: center;
 
-		.addr-in, .submit{
-			height: 24px;
-			line-height: 24px;
-			padding: 10px;
+		.inputs{
+			position: relative;
+
+			.inline-block;
+			width: 600px;
+
+			.input{
+				.inline-block;
+				height: 24px;
+				line-height: 24px;
+				padding: 10px;
+
+				//vertical-align: middle;
+				float: left;
+			}
+
+			.url-in{
+				width: 436px;
+				padding-right: 44px;
+				.code-font;
+			}
+
+			.file{
+				position: absolute;
+				left: 446px;
+				width: 24px;
+				line-height: 24px;
+
+				text-align: center;
+				overflow: hidden;
+
+				//background-color: #f0f0f0;
+
+				.icon{
+					width: 16px;
+					height: 16px;
+					fill: #666;
+				}
+
+				.file-in{
+					position: absolute;
+					left: 0;
+					top: 0;
+					.transparent(0);
+				}
+			}
+
+			.file-name{
+				display: none;
+				position: absolute;
+				left: 0;
+
+				width: 426px;
+
+				background-color: #f0f0f0;
+				text-align: left;
+				.code-font;
+			}
+
+			.submit{
+				width: 90px;
+			}
 		}
 
-		.addr-in{
-			width: 500px;
-			.code-font;
-		}
-
-		.submit{
-			width: 80px;
-			margin-left: 10px;
-		}
+		
 	}
 }
