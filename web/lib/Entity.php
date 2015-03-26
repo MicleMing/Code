@@ -6,7 +6,7 @@ class Entity
      */
     protected $_id;
 
-    protected static $class = __CLASS__;
+    protected static $class = __CLASS__;//该常量表示当前类的名称
 
     /**
      * @param int $id
@@ -30,10 +30,13 @@ class Entity
     {
         include_once 'Db.php';
         $collectionName = strtolower(get_class($this));
+       // echo "name:".$collectionName;
         $collection = Db::getInstance()->getCollection($collectionName);
 
+        //echo "id:".$this->_id;
         if (isset($this->_id)) {
             $entity = $collection->findOne(array('_id' => $this->_id));
+            //var_dump($entity);
             if ($entity) {
                 $data = $this->toArray();
                 foreach ($data as $key => $value) {
@@ -43,6 +46,7 @@ class Entity
             }
         } else {
             $this->_id = Db::getInstance()->autoIncrement($collectionName);
+            var_dump($this->toArray());
             $collection->insert($this->toArray());
         }
 
@@ -83,6 +87,7 @@ class Entity
     {
         include_once 'Db.php';
         $name = strtolower(static::$class);
+        //echo "class:". static::$class;
         $collection = Db::getInstance()->getCollection($name);
 
         $result = null;
@@ -107,7 +112,41 @@ class Entity
 
             $result = $entity;
         }
+        return $result;
+    }
 
+    /**
+    * @param string $property
+    * @param string $value
+    * @param array
+    */
+
+    public function getByPro($property,$value)
+    {
+        include_once 'Db.php';
+        $collectionName = strtolower(get_parent_class($this));
+        //echo $collectionName;
+        $collection = Db::getInstance()->getCollection($collectionName);
+
+        $result = array();
+        $cursor = $collection->find(array($property => $value));
+
+        if ($cursor) {
+            $className = ucfirst($collectionName);
+            foreach ($cursor as $data) {
+                $entity = new $className();
+                $vars = $entity->toArray();
+                foreach ($vars as $key => $value) {
+                    if ($key == "_id"){
+                        $entity->setId($data[$key]);
+                    }elseif ($key != "id") {
+                        $methodName = "set".ucfirst($key);
+                        $entity->$methodName($data[$key]);
+                    }
+                }
+                array_push($result, $entity);
+            };
+        }
         return $result;
     }
 
@@ -149,3 +188,8 @@ class Entity
         return $result;
     }
 }
+
+/*$entity = new Entity();
+Entity::getById($entity->getId());
+$entity->setId(1);
+$entity->save();*/

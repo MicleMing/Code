@@ -16,7 +16,8 @@ class Db
         $port = '27017';
 
         try {
-            $mongoClient = new MongoClient("mongodb://{$host}:{$port}");
+            //$mongoClient = new MongoClient("mongodb://{$host}:{$port}");
+            $mongoClient = new MongoClient();
             $mongoDB = $mongoClient->selectDB($dbName);
 
             $this->client = $mongoClient;
@@ -70,8 +71,8 @@ class Db
     }
 }
 
-//$collection = Db::getInstance()->getCollection('testData');
-//$cursor = $collection->find();
-//foreach ($cursor as $data) {
-//    var_dump($data);
-//}
+/*$collection = Db::getInstance()->getCollection('testData');
+$cursor = $collection->find();
+foreach ($cursor as $data) {
+   var_dump($data);
+}*/
