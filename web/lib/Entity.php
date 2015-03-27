@@ -121,7 +121,7 @@ class Entity
     * @param array
     */
 
-    public function getByPro($property,$value)
+    public function getByPro($array)
     {
         include_once 'Db.php';
         $collectionName = strtolower(get_parent_class($this));
@@ -129,7 +129,7 @@ class Entity
         $collection = Db::getInstance()->getCollection($collectionName);
 
         $result = array();
-        $cursor = $collection->find(array($property => $value));
+        $cursor = $collection->find($array);
 
         if ($cursor) {
             $className = ucfirst($collectionName);

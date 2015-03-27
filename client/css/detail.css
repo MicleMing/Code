@@ -1,1 +1,157 @@
-.inline-block{display:inline-block;*display:inline;*zoom:1}.code-font{font-family:Consolas,'Liberation Mono',Menlo,Courier,monospace}.select-none{-webkit-user-select:none;-moz-user-select:none;user-select:none}.main{margin-top:0;padding-top:40px}.main .menu-wrapper{position:absolute;left:0;width:28%}.main .menu-wrapper .menu-tree .fancytree-container{padding:0;height:600px;border:none;-webkit-transition:.6s;-o-transition:.6s;transition:.6s}.main .menu-wrapper .menu-tree .fancytree-focused .fancytree-title{outline:none;color:#049cd8}.main .menu-wrapper .menu-tree .fancytree-node{margin-bottom:6px}.main .menu-wrapper .menu-tree .fancytree-title{font-weight:bold;color:#333}.main .menu-wrapper .menu-tree .fancytree-active .fancytree-title,.main .menu-wrapper .menu-tree .fancytree-selected .fancytree-title{background-color:transparent}.main .menu-wrapper .menu-tree .fancytree-treefocus .fancytree-active .fancytree-title,.main .menu-wrapper .menu-tree .fancytree-treefocus .fancytree-selected .fancytree-title{background-color:transparent}.main .detail-wrapper{margin-left:30%;color:#f0f0f0}.main .detail-wrapper .detail-block{position:relative}.main .detail-wrapper .detail-block .left,.main .detail-wrapper .detail-block .right{float:left;width:49%}.main .detail-wrapper .detail-block .left{margin-right:2%}.main .detail-wrapper .code-blocks{position:relative}.main .detail-wrapper .code-blocks .code-tabs{position:absolute;top:-24px;height:24px;overflow:hidden}.main .detail-wrapper .code-blocks .code-tabs .code-tab{display:inline-block;float:left;padding:0 10px;height:24px;line-height:24px;font-size:12px;font-weight:bold;color:#333}.main .detail-wrapper .code-blocks .code-tabs .code-tab a{text-decoration:none}.main .detail-wrapper .code-blocks .code-tabs .code-tab.ui-state-active{color:#f0f0f0;background-color:#272822}.main .detail-wrapper .code-blocks .code-block{position:relative;overflow:auto;max-height:600px;background-color:#272822;font-size:14px;font-family:Consolas,'Liberation Mono',Menlo,Courier,monospace}.main .detail-wrapper .code-blocks .editer-wrapper{height:600px}.main .detail-wrapper .code-blocks .diff-block{font-family:Consolas,'Liberation Mono',Menlo,Courier,monospace;border-collapse:separate}.main .detail-wrapper .code-blocks .diff-block td{vertical-align:top;color:rgba(255,255,255,0.5);font-size:12px;line-height:18px;border:0 solid rgba(255,255,255,0.1)}.main .detail-wrapper .code-blocks .diff-block .line-num{width:1%;padding-left:8px;padding-right:8px;border-width:0 1px 0 0;text-align:right;-webkit-user-select:none;-moz-user-select:none;user-select:none;background-color:rgba(196,196,196,0.06)}.main .detail-wrapper .code-blocks .diff-block .mark{width:.5%;padding-left:8px;padding-right:8px;cursor:default}.main .detail-wrapper .code-blocks .diff-block .code{color:#ddd;white-space:pre}.main .detail-wrapper .code-blocks .diff-block .code.remove{color:#fff;background-color:rgba(233,96,96,0.72)}.main .detail-wrapper .code-blocks .diff-block .code.insert{color:#fff;background-color:rgba(124,228,42,0.59)}.main .detail-wrapper .code-blocks .diff-block .line.remove{background-color:rgba(190,130,130,0.39)}.main .detail-wrapper .code-blocks .diff-block .line.insert{background-color:rgba(100,146,61,0.38)}.main .detail-wrapper .code-blocks .diff-block .line:hover{background-color:rgba(170,170,170,0.1)}.main .detail-wrapper .code-blocks .diff-block .line:hover .line-num{font-weight:bold;color:rgba(255,255,255,0.67)}.main .detail-wrapper .code-blocks .diff-block .line:hover .code{color:#f0f0f0}
+.inline-block {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+}
+.code-font {
+  font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+}
+.select-none {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+.main {
+  margin-top: 0;
+  padding-top: 40px;
+}
+.main .menu-wrapper {
+  position: absolute;
+  left: 0;
+  width: 28%;
+}
+.main .menu-wrapper .menu-tree .fancytree-container {
+  padding: 0;
+  height: 600px;
+  border: none;
+  -webkit-transition: 0.6s;
+  -o-transition: 0.6s;
+  transition: 0.6s;
+}
+.main .menu-wrapper .menu-tree .fancytree-focused .fancytree-title {
+  outline: none;
+  color: #049cd8;
+}
+.main .menu-wrapper .menu-tree .fancytree-node {
+  margin-bottom: 6px;
+}
+.main .menu-wrapper .menu-tree .fancytree-title {
+  font-weight: bold;
+  color: #333;
+}
+.main .menu-wrapper .menu-tree .fancytree-active .fancytree-title,
+.main .menu-wrapper .menu-tree .fancytree-selected .fancytree-title {
+  background-color: transparent;
+}
+.main .menu-wrapper .menu-tree .fancytree-treefocus .fancytree-active .fancytree-title,
+.main .menu-wrapper .menu-tree .fancytree-treefocus .fancytree-selected .fancytree-title {
+  background-color: transparent;
+}
+.main .detail-wrapper {
+  margin-left: 30%;
+  color: #f0f0f0;
+}
+.main .detail-wrapper .detail-block {
+  position: relative;
+}
+.main .detail-wrapper .detail-block .left,
+.main .detail-wrapper .detail-block .right {
+  float: left;
+  width: 49%;
+}
+.main .detail-wrapper .detail-block .left {
+  margin-right: 2%;
+}
+.main .detail-wrapper .code-blocks {
+  position: relative;
+}
+.main .detail-wrapper .code-blocks .code-tabs {
+  position: absolute;
+  top: -24px;
+  height: 24px;
+  overflow: hidden;
+}
+.main .detail-wrapper .code-blocks .code-tabs .code-tab {
+  display: inline-block;
+  float: left;
+  padding: 0 10px;
+  height: 24px;
+  line-height: 24px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #333;
+}
+.main .detail-wrapper .code-blocks .code-tabs .code-tab a {
+  text-decoration: none;
+}
+.main .detail-wrapper .code-blocks .code-tabs .code-tab.ui-state-active {
+  color: #f0f0f0;
+  background-color: #272822;
+}
+.main .detail-wrapper .code-blocks .code-block {
+  position: relative;
+  overflow: auto;
+  max-height: 600px;
+  background-color: #272822;
+  font-size: 14px;
+  font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+}
+.main .detail-wrapper .code-blocks .editer-wrapper {
+  height: 600px;
+}
+.main .detail-wrapper .code-blocks .diff-block {
+  font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  border-collapse: separate;
+}
+.main .detail-wrapper .code-blocks .diff-block td {
+  vertical-align: top;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  line-height: 18px;
+  border: 0px solid rgba(255, 255, 255, 0.1);
+}
+.main .detail-wrapper .code-blocks .diff-block .line-num {
+  width: 1%;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-width: 0 1px 0 0;
+  text-align: right;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  background-color: rgba(196, 196, 196, 0.06);
+}
+.main .detail-wrapper .code-blocks .diff-block .mark {
+  width: 0.5%;
+  padding-left: 8px;
+  padding-right: 8px;
+  cursor: default;
+}
+.main .detail-wrapper .code-blocks .diff-block .code {
+  color: #ddd;
+  white-space: pre;
+}
+.main .detail-wrapper .code-blocks .diff-block .code.remove {
+  color: #fff;
+  background-color: rgba(233, 96, 96, 0.72);
+}
+.main .detail-wrapper .code-blocks .diff-block .code.insert {
+  color: #fff;
+  background-color: rgba(124, 228, 42, 0.59);
+}
+.main .detail-wrapper .code-blocks .diff-block .line.remove {
+  background-color: rgba(190, 130, 130, 0.39);
+}
+.main .detail-wrapper .code-blocks .diff-block .line.insert {
+  background-color: rgba(100, 146, 61, 0.38);
+}
+.main .detail-wrapper .code-blocks .diff-block .line:hover {
+  background-color: rgba(170, 170, 170, 0.1);
+}
+.main .detail-wrapper .code-blocks .diff-block .line:hover .line-num {
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.67);
+}
+.main .detail-wrapper .code-blocks .diff-block .line:hover .code {
+  color: #f0f0f0;
+}
