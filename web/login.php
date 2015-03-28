@@ -14,11 +14,11 @@
 
 	}
 
-	if($_GET['action'] == 'logout'){
+/*	if($_GET['action'] == 'logout'){
 		unset($_SESSION['username']);
 		unset($_SESSION['role']);
 		exit;
-	}
+	}*/
 
 	$lgn = new Login();
 
@@ -31,13 +31,26 @@
 	$result = $lgn->getByPro(array(
 		'username'=>$lgn->getUsername(),
 		'password'=>$lgn->getPassword(),
-		'role'=>$lgn->getRole();
+		'role'=>$lgn->getRole()
 		));
 
 	if(count($result) == 1){
-		$_SESSION['username'] = $result[0]->getUsername;
-		$_SESSION['role'] = $result[0]->getRole();
+
+		$username = $result[0]->getUsername();
+		$role = $result[0]->getRole();
+
+		$_SESSION['username'] = $username;
+		$_SESSION['role'] = $role;
+
+
+
+		echo json_encode([
+			"username"=> $username,
+			"role"=> $role
+			]);
 	}
 	else{
-		exit('用户名或者密码不正确');
+		exit(json_encode([
+			'error'=> '密码或者用户名不正确'
+			]));
 	}

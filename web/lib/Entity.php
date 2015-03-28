@@ -29,7 +29,7 @@ class Entity
     public function save()
     {
         include_once 'Db.php';
-        $collectionName = strtolower(get_class($this));
+        $collectionName = strtolower(get_parent_class($this));
        // echo "name:".$collectionName;
         $collection = Db::getInstance()->getCollection($collectionName);
 
@@ -46,7 +46,7 @@ class Entity
             }
         } else {
             $this->_id = Db::getInstance()->autoIncrement($collectionName);
-            var_dump($this->toArray());
+            //var_dump($this->toArray());
             $collection->insert($this->toArray());
         }
 

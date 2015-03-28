@@ -4,17 +4,18 @@
         <script type="text/javascript" src="../js/login.js"></script>
         <link rel="stylesheet" type="text/css" href="../css/login.css">
         <div class="login-container">
-            <form id="form" class="inputs" action="../../web/register.php" method="post">
+            <p class="register">没有账号？<a href="#">注册</a></p>
+            <form id="form" class="inputs" action="">
                 <p>用户名:<input type="text" id="username" name="username"></p>
                 <p>密&nbsp;&nbsp;码:<input type="password" id="password" name="password"></p>
                 <p>
-                role:<select>
-                        <option value="personal">个人注册</option>
-                        <option value="orgnazition">小组注册</option>
+                role:<select id="select" name="role">
+                        <option  value="0">个人登录</option>
+                        <option  value="1">小组登录</option>
                      </select>
                 </p>
-                <p><input type="submit" value="submit"></p>
             </form>
+            <button id="login">登录</button>
         </div>
     </div>
 

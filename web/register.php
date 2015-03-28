@@ -15,10 +15,10 @@
 		}*/
 		public function check () {
 			if(!preg_match('/^[\w\x80-\xff]{3,15}$/', $this->username)){
-				exit('用户名错误');
+				exit('username error');
 			}
 			if(strlen($this->password)<6){
-				exit('密码长度不够')
+				exit('password invail');
 			}
 		}
 	}
@@ -31,13 +31,17 @@
 
 	$reg->check();
 	$result = array();
-	$result = $reg->getBypro(array('username'=>$reg->getUsername());
+	$result = $reg->getBypro(array('username'=>$reg->getUsername()));
 	if(count($result) != 0){
-		exit('该用户名已经被注册');
+		exit('username has been register');
 	}
 
-	$reg->setPassword($reg->md5($reg->getPassword()));
+	$reg->setPassword($reg->md5Func($reg->getPassword()));
 
-	$reg->save();
+	if($reg->save()){
+		echo json_encode([
+			'message'=>'注册成功，请登录!'
+			]);
+	}
 
 	//echo $reg->getBypro('username','lanmingming')[0]->getUsername();
