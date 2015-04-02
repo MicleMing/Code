@@ -15,10 +15,14 @@
 		}*/
 		public function check () {
 			if(!preg_match('/^[\w\x80-\xff]{3,15}$/', $this->username)){
-				exit('username error');
+				exit(json_encode([
+						'message'=>'用户名不符合规范'
+					]));
 			}
 			if(strlen($this->password)<6){
-				exit('password invail');
+				exit(json_encode([
+						'message'=>'密码长度需要大于六位'
+					]));
 			}
 		}
 	}
@@ -33,7 +37,9 @@
 	$result = array();
 	$result = $reg->getBypro(array('username'=>$reg->getUsername()));
 	if(count($result) != 0){
-		exit('username has been register');
+		exit(json_encode([
+				'message'=>'该用户已经被注册'
+			]));
 	}
 
 	$reg->setPassword($reg->md5Func($reg->getPassword()));

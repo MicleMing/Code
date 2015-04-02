@@ -20,7 +20,15 @@ $(function(){
 			var data = JSON.parse(data);
 			var success = $("<p></p>");
 			success.html(data.message);
+			$(".register-container").children('p').not('.login').remove();
 			$(".register-container").append(success);
+		})
+		.error(function (error) {
+			var error = JSON.parse(error);
+			var errorMsg = $("<p></p>");
+			errorMsg.html(error.message);
+			$(".register-container").children('p').remove();
+			$(".register-container").append(error);
 		})
 	})
 
@@ -29,7 +37,7 @@ $(function(){
 	var gotoLogin = $(".login").find("a");
 	gotoLogin.on("click", function(e) {
 		e.preventDefault();
-		location.href = "../html/login.html";
+		location.href = "../html/login.php";
 	})
 
 })
