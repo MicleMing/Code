@@ -49,7 +49,7 @@
                 <p>
                 role:<select id="select" name="role">
                         <option  value="0">个人注册</option>
-                        <option  value="1">小组注册</option>
+                        <option  value="1">团队注册</option>
                      </select>
                 </p>
             </form>

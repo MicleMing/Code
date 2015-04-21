@@ -2,6 +2,7 @@ $(function(){
 
     // global observer
     var observer = util.observer;
+    var baseUrl = "http://localhost/CodeDoctor/upload/localUpload/"
 
     // layout
     !function(){
@@ -39,19 +40,28 @@ $(function(){
     // tree
     !function(){
         // tree
-        $('#menu-tree').fancytree({
-            source: {
-                url: '../mock/file-tree.json'
-            },
-            activate: function(event, data){
-                var node = data.node,
-                    path = '../mock/' + node.key;
+        $.ajax({
+            url: "http://localhost/CodeDoctor/web/check.php",
+            type: "GET",
+            dataType: "json"
+        })
+        .success(function (data) {
+            var json = baseUrl + data.key + '/tree.json';
+            $('#menu-tree').fancytree({
+                source: {
+                    url: json
+                },
+                activate: function(event, data){
+                    var node = data.node,
+                        path = '../mock/' + node.key;
 
-                observer.fire('file-chosen', {
-                    path: path
-                });
-            }
-        });
+                    observer.fire('file-chosen', {
+                        path: path
+                    });
+                }
+            });           
+        })
+
     }();
 
     // tabs

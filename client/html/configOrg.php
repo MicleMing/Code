@@ -1,3 +1,10 @@
+<?php
+    @session_start();
+    if(!isset($_SESSION['username'])){
+        $login = '../html/login.php';
+        header("Location: $login");
+    }
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,27 +45,25 @@
 </header>
 
 
-    <div class="main">
-        <script type="text/javascript" src="../js/login.js"></script>
-        <link rel="stylesheet" type="text/css" href="../css/login.css">
-        <div class="login-container">
-            <p class="register">没有账号？<a href="#">注册</a></p>
-            <form id="form" class="inputs" action="">
-                <p>用户名:<input type="text" id="username" name="username"></p>
-                <p>密&nbsp;&nbsp;&nbsp;码:<input type="password" id="password" name="password"></p>
-                <p>
-                role:<select id="select" name="role">
-                        <option  value="0">个人登录</option>
-                        <option  value="1">团队登录</option>
-                     </select>
-                </p>
-            </form>
-            <button id="login">登录</button>
-        </div>
-    </div>
+<div class="main">
+	<script type="text/javascript" src="../js/configOrg.js"></script>
+	<link rel="stylesheet" type="text/css" href="../css/configOrg.css">
 
-<footer class="footer">
-	<div class="inner-footer">
-		<p class="about">Code Doctor@csfe</p>
+	<div class="config-org">
+        <form id="form" class="org" action="">
+            <p>团队名称:<input type="text" id="username" name="username"></p>
+            <p>团队描述:<input type="text" id="descript" name="descript"></p>
+            <p>负责人姓名:<input type="text" id="name" name="name"></p>
+            <p>负责人邮箱:<input type="email" id="email" name="email"></p>
+        </form>
+        <button id="configOrg">确定</button>
 	</div>
-</footer>
+
+</div>
+
+
+
+
+
+</body>
+</html>

@@ -47,7 +47,7 @@
 <div class="main">
 	<link rel="stylesheet" type="text/css" href="../css/index.css">
 	<div class="main-content">
-		<form id="form" class="inputs" action="./overview.php" method="post" enctype="multipart/form-data">
+		<form id="form" class="inputs" action="../../web/task.php" method="post" enctype="multipart/form-data">
 			<input id="url-in" class="input url-in" type="url" name="url" placeholder="SVN/GIT ADDRESS OR ZIP/JS FILE" autofocus>
 			<span id="file-btn" class="input file">
 				<svg class="icon icon-out" viewBox="0 0 32 32"><use xlink:href="#icon-out"></use></svg>

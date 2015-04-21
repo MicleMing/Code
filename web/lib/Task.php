@@ -24,6 +24,12 @@ class Task extends Entity
      */
     protected $path;
 
+    /**
+    * 上传时间
+    */
+    protected $time;
+
+    
     protected static $class = __CLASS__;
 
     public function __construct()
@@ -82,6 +88,17 @@ class Task extends Entity
     public function getUri()
     {
         return $this->uri;
+    }
+
+    public function setTime($time)
+    {
+        $this->time = $time;
+        return $this;
+    }
+
+    public function getTime()
+    {
+        return $this->time;
     }
 }
 
