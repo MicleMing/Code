@@ -88,7 +88,7 @@
 			导入工作与你预期的一样。你可以导入一个 .less 文件。
 		</p>
 		<p class="overview-ops">
-			<a href="../../web/check.php" class="overview-op">查看详情</a>
+			<a href="./detail.php" class="overview-op">查看详情</a>
 			<a href="../../web/fix.php" class="overview-op">一键修复</a>
 		</p>
 	</div>

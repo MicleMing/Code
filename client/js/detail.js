@@ -46,14 +46,15 @@ $(function(){
             dataType: "json"
         })
         .success(function (data) {
-            var json = baseUrl + data.key + '/tree.json';
+            var key = data.key
+            var json = baseUrl + key + '/tree.json';
             $('#menu-tree').fancytree({
                 source: {
                     url: json
                 },
                 activate: function(event, data){
                     var node = data.node,
-                        path = '../mock/' + node.key;
+                        path = baseUrl + key + '/' + node.key;
 
                     observer.fire('file-chosen', {
                         path: path

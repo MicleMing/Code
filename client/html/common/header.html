@@ -1,0 +1,16 @@
+<header class="header">
+	<div class="inner-header">
+		<h1 class="title">
+			<a href="./index.php">Code Doctor</a>
+		
+        <?php
+            @session_start();
+            if(isset($_SESSION['username'])){
+                //echo $_SESSION['username'];
+                echo "<a href='#' class='logout'>退出</a>";
+                echo "<a href='#' class='personal'>个人中心</a>";
+            }
+        ?> 
+        </h1>    
+	</div>
+</header>

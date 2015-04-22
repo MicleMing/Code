@@ -15,14 +15,14 @@ var init = function (dirPath, TreeArray) {
 	})
 }
 
-var generateTree = function (dir) {
+var generateTree = function (root,dir) {
 
 	var stat = fs.lstatSync(dir);
 	var isDir = stat.isDirectory();
 	if (!isDir) {
 		return {
 			'title': path.relative(path.dirname(dir),dir),
-			'key'  : path.relative(path.dirname(dir),dir)
+			'key'  : path.relative(root,dir)
 		};
 	}
 	else {
@@ -32,7 +32,7 @@ var generateTree = function (dir) {
 			'key'     : path.relative(path.dirname(dir),dir),
 			'folder'  : true,
 			'children': list.map(function (item) {
-				return generateTree(dir+'/'+item);
+				return generateTree(root,dir+'/'+item);
 			})
 		};
 	}
