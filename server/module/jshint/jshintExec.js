@@ -27,7 +27,8 @@ var jshintExec = function (dirPath) {
 				}				
 			}
 		})
-
+		var str = stderr.toString('utf8');
+		stdoutArr.push(str);
 		if (error) {
 			stdoutArr.push(error)
 		}
