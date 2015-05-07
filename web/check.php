@@ -13,6 +13,7 @@
 			exec("node $fileName $dirPath",$info,$val);
 		}
 
+
 	}
 
 	$check = new Check();
@@ -22,4 +23,4 @@
 	$dirPath = $checkFile[0]->getPath();
 	$key = $checkFile[0]->getTime();
 	$check->execTask($dirPath);
-	echo json_encode(['key'=>$key]) ;
+	echo json_encode(['key'=>$key]);

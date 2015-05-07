@@ -3,7 +3,7 @@ var path = require('path');
 var fs = require('fs');
 
 var jshintExec = function (dirPath) {
-	var child = exec('jshint '+dirPath, function (error, stdout, stderr) {
+	var child = exec('C:\\Users\\Administrator\\AppData\\Roaming\\npm\\jshint.cmd '+dirPath, function (error, stdout, stderr) {
 		var stdoutArr = stdout.split('\n');
 		var ret;
 		var temp;
@@ -27,12 +27,10 @@ var jshintExec = function (dirPath) {
 				}				
 			}
 		})
-		var str = stderr.toString('utf8');
-		stdoutArr.push(str);
 		if (error) {
 			stdoutArr.push(error)
 		}
-		fs.writeFile(path.join(dirPath + '/jshint.json'), JSON.stringify(stdoutArr), function (err) {
+		fs.writeFile(path.join(path.dirname(dirPath) + '/jshint.json'), JSON.stringify(stdoutArr), function (err) {
 			if (err) {
 				console.log(err);
 			}

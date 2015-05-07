@@ -54,9 +54,11 @@ $(function(){
                 },
                 activate: function(event, data){
                     var node = data.node,
-                        path = baseUrl + key + '/' + node.key;
+                        //path = baseUrl + key + '/' + node.key;
+                        path = key + '/' + node.key
 
                     observer.fire('file-chosen', {
+                        url: 'http://localhost/CodeDoctor/web/getInfo.php',
                         path: path
                     });
                 }
@@ -107,31 +109,26 @@ $(function(){
                 var ext = util.getExt(data.path),
                     syntaxMode = syntaxMap[ext] || '';
 
-                $.ajax(data.path, {
-                    dataType: 'text',
+                $.ajax(data.url, {
+                    dataType: 'json',
+                    type: 'POST',
+                    data:{
+                        path: data.path
+                    },
                     success: function(data){
                         util.forEach(editors, function(editor){
-                            editor.setValue(data);
-                            editor.navigateTo(0, 0);
-
-                            editor.session.setMode(syntaxMode);
-                            editor.session.setAnnotations([
-                                {
-                                    row: 0,
-                                    html: '<span>I\'m an error!</span>',
+                            var annotationArr = [];
+                            data.codeInfo.forEach(function (item) {
+                                annotationArr.push({
+                                    row: item.row - 1,
+                                    html: 'row' + ':' + item.row + ';col ' + item.col + ':' +item.ression,
                                     type: 'error'
-                                },
-                                {
-                                    row: 1,
-                                    text: 'I\'m a warning!',
-                                    type: 'warning'
-                                },
-                                {
-                                    row: 2,
-                                    text: 'I\'m info!',
-                                    type: 'info'
-                                }
-                            ]);
+                                });
+                            })
+                            editor.setValue(data.code);
+                            editor.navigateTo(0, 0);
+                            editor.session.setMode(syntaxMode);
+                            editor.session.setAnnotations(annotationArr);
                         });
                     }
                 });
