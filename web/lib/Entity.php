@@ -54,6 +54,28 @@ class Entity
     }
 
     /**
+     *跟新文档 
+     */
+    public function update ($array, $updateArray) 
+    {
+        include_once 'Db.php';
+
+        $collectionName = strtolower(get_parent_class($this));
+        $collection = Db::getInstance()->getCollection($collectionName);
+        $cursor = $collection->find($array);
+        var_dump($cursor);
+        if($cursor->count()) {
+            echo "update";
+            $collection->update($array,array('$set'=>$updateArray));
+        }
+        else {
+            echo 'save';
+            $this->save();
+        }
+        return $this;
+    } 
+    
+    /**
      * @return array
      */
     public function toArray()

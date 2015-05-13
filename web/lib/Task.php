@@ -29,6 +29,10 @@ class Task extends Entity
     */
     protected $time;
 
+    /**
+     * 所属用户id
+     */
+    protected $userId;
     
     protected static $class = __CLASS__;
 
@@ -99,6 +103,16 @@ class Task extends Entity
     public function getTime()
     {
         return $this->time;
+    }
+
+    public function setUserId($userId) 
+    {
+        $this->userId = $userId;
+        return $this;
+    }
+    public function getUserId() 
+    {
+        return $this->userId;
     }
 }
 

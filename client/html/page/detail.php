@@ -35,4 +35,4 @@
 
 <script type="text/javascript" src="../js/detail.js"></script>
 
-<% include "../common/foot" %>
+<% include "../common/footer" %>

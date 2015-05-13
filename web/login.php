@@ -1,5 +1,6 @@
 <?php
 	include_once './lib/User.php';
+	include_once './lib/Db.php';
 	session_start();
 
 	class Login extends User
@@ -13,6 +14,45 @@
 		}
 
 	}
+
+
+	/**
+	 * 每次登陆跟新配置文件
+	 */
+	class updateConfig
+	{
+		public function getConfig () {
+			$configCollectionName = 'config';
+
+			$collection = Db::getInstance()->getCollection($configCollectionName);
+
+			$cursor = $collection->find(array('userId' => $_SESSION['userId']));
+
+			$result = array();
+
+	        if ($cursor) {
+	            foreach ($cursor as $data) {
+	                array_push($result, $data);
+	            };
+	        }
+	        return $result;
+		}
+
+		public function getTasks () {
+			$taskCollectionName = 'task';
+
+			$collection =Db::getInstance()->getCollection($taskCollectionName);
+			$cursor = $collection->find(array('userId' => $_SESSION['userId']));
+
+			$result = array();
+			if ($cursor) {
+				foreach ($cursor as $data) {
+					array_push($result, $data);
+				};
+			}
+			return $result;
+		}
+	}  
 
 	//退出
 	if(isset($_GET['action'])&&$_GET['action'] == 'logout'){
@@ -39,25 +79,31 @@
 
 		$username = $result[0]->getUsername();
 		$role = $result[0]->getRole();
+		$userId = $result[0]->getId();
 
 		$_SESSION['username'] = $username;
 		$_SESSION['role'] = $role;
+		$_SESSION['userId'] = $userId;
 
 		//setcookie('username', $username, time()+3600);
 		//$_SESSION['role'] 0 个人注册 ；1 团队注册
 
-		if($_SESSION['role'] == 1) {
+/*		if($_SESSION['role'] == 1) {
 			$url = "../html/configOrg.php";
 			header("Location: $url");
 		}elseif ($_SESSION['role'] == 0) {
 			$url = "../html/index.php";
-		}
+		}*/
 
-		echo json_encode([
+/*		echo json_encode([
 			"url"=>$url,
 			"username"=> $username,
-			"role"=> $role
-			]);
+			"role"=> $role,
+			"userId"=>$userId
+			]);*/
+
+		$updateConf = new updateConfig();
+		$updateConf->getConfig();
 	}
 	else{
 		exit(json_encode([

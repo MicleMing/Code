@@ -11,7 +11,8 @@
 			unset($info);
 			$url = "E:/graduation/project/CodeDoctor/upload/repo/$this->time";
 			exec("git clone $filename $url",$info,$val);
-			$this->setUri($filename)->setPath($url)->settype('git')->save();
+			$userId = $_SESSION['userId'];
+			$this->setUri($filename)->setPath($url)->settype('git')->setUserId($userId)->save();
 		}
 
 		public function localUpload()
@@ -42,7 +43,8 @@
 						{
 							$zip->extractTo($url);
 							$zip->close();
-							$this->setUri($_FILES['file']['name'])->setPath($url)->settype('zip')->save();
+							$userId = $_SESSION['userId'];
+							$this->setUri($_FILES['file']['name'])->setPath($url)->settype('zip')->setUserId($userId)->save();
 						}
 						else
 						{

@@ -1,9 +1,9 @@
 /**
  * 静态页面config.html的js文件
- * @author yanyinhong <yanyinhong@baidu.com> 2014-08-12
+ * @author lanmingming <lanmingming@baidu.com>
  */
 $(function(){
-    $.getJSON("../json/config.json", function(data){
+   /* $.getJSON("../json/config-zh.json", function(data){
        var config_container = $(".config-container");
        
        var str = '';
@@ -26,7 +26,7 @@ $(function(){
            } else if (typeof value == 'number') {
                 str += '<div class="config-item">' + 
                             '<span>' + key + ' </span>' +
-                            '<input type="number" name"' + key + '" min="-1000" max="1000">' +
+                            '<input type="number" name="' + key + '" min="-1000" max="1000" value="'+ value +'">' +
                        '</div>';
            } else if (typeof value == 'object') {
                if (value instanceof Array) {
@@ -61,8 +61,59 @@ $(function(){
        $.each(data, function(key, value){
             str += output(key,value);   
        });
-       
+       str += '<input class="btn" type="submit" value="确定">';
        config_container.html(str);
-    });
+    });*/
+
+    $('.btn').click(function (e) {
+        e.preventDefault();
+        var config = {
+            "maxlength": $('[name=maxlength]').attr('value'),
+            "indent": $('[name=indent]').attr('value'),
+            "useTabIndent": $('[name=useTabIndent]').is(':checked'),
+            "spaces": {
+                "around": {
+                    "unaryOperations": $('[name=unaryOperations]').is(':checked'),
+                    "binaryOperators": $('[name=binaryOperators]').is(':checked'),
+                    "ternaryOperation": $('[name=ternaryOperation]').is(':checked')
+                },
+                "before": {
+                    "functionDecalarationParentheses": $('[name=functionDecalarationParentheses]').is(':checked'),
+                    "functionExpressionParentheses": $('[name=functionExpressionParentheses]').is(':checked'),
+                    "parenthess": $('[name=parenthess]').is(':checked'),
+                    "leftBrace": $('[name=leftBrace]').is(':checked'),
+                    "keywords": $('[name=keywords]').is(':checked')
+                },
+                "within": {
+                    "parenthess": $('[name=parenthess]').is(':checked')
+                },
+                "other": {
+                    "beforePropertyNameValueSeparator": $('[name=beforePropertyNameValueSeparator]').is(':checked'),
+                    "afterPropertyNameValueSeparator": $('[name=afterPropertyNameValueSeparator]').is(':checked')
+                }
+            },
+            "bracesPlacement": {
+                "functionDeclaration": $('[name=functionDeclaration]').attr('value'),
+                "other": $('[name=other]').attr('value')
+            },
+            "blankLines": {
+                "keepMaxBlankLines": $('[name=keepMaxBlankLines]').attr('value'),
+                "atEndOfFile": $('[name=atEndOfFile]').is(':checked')
+            },
+            "other": {
+                "keepArraySingleLine": $('[name=keepArraySingleLine]').is(':checked')
+            }          
+        }
+
+        $.ajax({
+            url:'../../web/config.php',
+            type:'POST',
+            data: config,
+            success: function () {
+                //location.href = './index.php';
+            }
+        })
+
+    })
 });
 

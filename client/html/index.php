@@ -59,7 +59,8 @@
 	</div>
 </div>
 <script type="text/javascript" src="../js/index.js"></script>
-
-
-</body>
-</html>
+<footer class="footer">
+	<div class="inner-footer">
+		<p class="about">Code Doctor@csfe</p>
+	</div>
+</footer>

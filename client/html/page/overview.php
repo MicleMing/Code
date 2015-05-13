@@ -51,4 +51,4 @@
 
 </div>
 
-<% include "../common/foot" %>
+<% include "../common/footer" %>

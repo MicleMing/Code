@@ -19,7 +19,7 @@ $(function() {
 		})
 		.success(function(data) {
 			var data = JSON.parse(data);
-			location.href = data.url;
+			//location.href = data.url;
 		})
 	})
 

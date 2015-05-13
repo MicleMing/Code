@@ -63,7 +63,8 @@
 
 
 
-
-
-</body>
-</html>
+<footer class="footer">
+	<div class="inner-footer">
+		<p class="about">Code Doctor@csfe</p>
+	</div>
+</footer>

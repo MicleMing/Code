@@ -19,4 +19,4 @@
 
 
 
-<% include "../common/foot" %>
+<% include "../common/footer" %>

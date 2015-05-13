@@ -15,4 +15,4 @@
 	</div>
 </div>
 <script type="text/javascript" src="../js/index.js"></script>
-<% include "../common/foot" %>
+<% include "../common/footer" %>
