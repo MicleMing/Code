@@ -1,6 +1,7 @@
 <?php
 	include_once './lib/User.php';
 	include_once './lib/Db.php';
+	include_once './lib/CONST.php';
 	session_start();
 
 	class Login extends User
@@ -18,6 +19,7 @@
 
 	/**
 	 * 每次登陆跟新配置文件
+	 * @return string 配置文件
 	 */
 	class updateConfig
 	{
@@ -35,9 +37,13 @@
 	                array_push($result, $data);
 	            };
 	        }
-	        return $result;
+	        return $result[0]['config'];
 		}
 
+		/**
+		 * 获取task列表
+		 * @return array 任务列表
+		 */
 		public function getTasks () {
 			$taskCollectionName = 'task';
 
@@ -47,10 +53,20 @@
 			$result = array();
 			if ($cursor) {
 				foreach ($cursor as $data) {
-					array_push($result, $data);
+					array_push($result, $data['time']);
 				};
 			}
 			return $result;
+		}
+
+		/**
+		 * 给每个任务跟新配置文件
+		 */
+		public function updateTaskConf ($config, $tasks) {
+			foreach ($tasks as $data) {
+				$filename = CONSTANT::uploadUrl."localUpload/".$data."/config.json";
+				file_put_contents($filename, $config);
+			}
 		}
 	}  
 
@@ -88,12 +104,12 @@
 		//setcookie('username', $username, time()+3600);
 		//$_SESSION['role'] 0 个人注册 ；1 团队注册
 
-/*		if($_SESSION['role'] == 1) {
+		if($_SESSION['role'] == 1) {
 			$url = "../html/configOrg.php";
 			header("Location: $url");
 		}elseif ($_SESSION['role'] == 0) {
 			$url = "../html/index.php";
-		}*/
+		}
 
 /*		echo json_encode([
 			"url"=>$url,
@@ -103,7 +119,9 @@
 			]);*/
 
 		$updateConf = new updateConfig();
-		$updateConf->getConfig();
+		$config = $updateConf->getConfig();
+		$tasks = $updateConf->getTasks();
+		$updateConf->updateTaskConf($config, $tasks);
 	}
 	else{
 		exit(json_encode([

@@ -30,7 +30,7 @@
             if(isset($_SESSION['username'])){
                 //echo $_SESSION['username'];
                 echo "<a href='#' class='logout'>退出</a>";
-                echo "<a href='#' class='personal'>个人中心</a>";
+                echo "<a href='./person.php' class='personal'>个人中心</a>";
             }
         ?> 
         </h1>    

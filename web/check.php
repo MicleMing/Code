@@ -1,10 +1,11 @@
 <?php
 	session_start();
 	include_once "./lib/Task.php";
+	include_once "./lib/CONST.php";
 
 	class Check extends Task 
 	{
-		public static $server = "E:/graduation/project/CodeDoctor/server/httpd.js";
+		public static $server = CONSTANT::server;
 
 		public function execTask ($dirPath)
 		{

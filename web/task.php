@@ -1,5 +1,6 @@
 <?php
 	include_once "./lib/Task.php";
+	include_once "./lib/CONST.php";
 	session_start();
 	class DoTask extends Task
 	{
@@ -9,7 +10,7 @@
 
 			$this->time = time();
 			unset($info);
-			$url = "E:/graduation/project/CodeDoctor/upload/repo/$this->time";
+			$url = CONSTANT::uploadUrl."repo/$this->time";
 			exec("git clone $filename $url",$info,$val);
 			$userId = $_SESSION['userId'];
 			$this->setUri($filename)->setPath($url)->settype('git')->setUserId($userId)->save();
@@ -28,7 +29,7 @@
 				}
 				else
 				{
-					$url = "E:/graduation/project/CodeDoctor/upload/localUpload/$this->time";
+					$url = CONSTANT::uploadUrl."localUpload/$this->time";
 					if(file_exists($url))
 					{
 						echo "文件已经存在";

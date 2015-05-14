@@ -74,6 +74,17 @@ class Entity
         }
         return $this;
     } 
+
+    /**
+     * 删除
+     */
+    public function delete ($array) {
+        include_once 'Db.php';
+
+        $collectionName = strtolower(get_parent_class($this));
+        $collection = Db::getInstance()->getCollection($collectionName);
+        return $collection->remove($array, array("justone" => true));
+    }
     
     /**
      * @return array

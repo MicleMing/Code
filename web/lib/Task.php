@@ -10,29 +10,29 @@ class Task extends Entity
      * zip git svn
      * @var string
      */
-    protected $type;
+    public $type;
 
     /**
      * 用户提交的repo url或者zip文件存放位置
      * @var string
      */
-    protected $uri;
+    public $uri;
 
     /**
      * repo拉取下来之后存放位置或者zip解压路径
      * @var string
      */
-    protected $path;
+    public $path;
 
     /**
     * 上传时间
     */
-    protected $time;
+    public $time;
 
     /**
      * 所属用户id
      */
-    protected $userId;
+    public $userId;
     
     protected static $class = __CLASS__;
 
