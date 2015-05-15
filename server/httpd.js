@@ -1,5 +1,6 @@
 var tree = require('./lib/tree/tree');
 var jshint = require('./module/jshint/jshintExec');
+var jscs = require('./module/jscs/jscsExec');
 var fs = require('fs');
 var path = require('path');
 
@@ -18,3 +19,4 @@ tree.generateJsonFile(unitPath,json);
 //执行jshint
 
 jshint.jshintExec(dirPath);
+jscs.jscsExec(dirPath);

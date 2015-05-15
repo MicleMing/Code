@@ -14,14 +14,20 @@
 			exec("node $fileName $dirPath",$info,$val);
 		}
 
-
 	}
 
-	$check = new Check();
+/*	$check = new Check();
 
-	$time = $_SESSION['file'];
-	$checkFile = $check->getByPro(array('time'=>$time));
+	if (isset($_GET['item'])) {
+		$time = $_GET['item'];
+	}elseif (isset($_SESSION['file'])) {
+		$time = $_SESSION['file'];
+	}
+	
+	$checkFile = $check->getByPro(array('time'=>(int)$time));
 	$dirPath = $checkFile[0]->getPath();
 	$key = $checkFile[0]->getTime();
 	$check->execTask($dirPath);
-	echo json_encode(['key'=>$key]);
+
+	//返回上传文件的唯一标示
+	echo json_encode(['key'=>$key]);*/

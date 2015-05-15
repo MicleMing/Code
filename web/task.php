@@ -1,6 +1,7 @@
 <?php
 	include_once "./lib/Task.php";
 	include_once "./lib/CONST.php";
+	include_once "check.php";
 	session_start();
 	class DoTask extends Task
 	{
@@ -61,6 +62,7 @@
 
 
 	$doTask = new DoTask();
+	$check = new Check();
 
 	$repoUrl = $_POST['url'];
 	$zipName = $_FILES['file']['tmp_name'];
@@ -80,6 +82,13 @@
 		$doTask->localUpload();
 		$fileKey = $doTask->getTime();
 		$_SESSION['file'] = $fileKey;
+
+		//执行check
+		$checkFile = $check->getByPro(array('time'=>(int)$fileKey));
+		$dirPath = $checkFile[0]->getPath();
+		$key = $checkFile[0]->getTime();
+		$check->execTask($dirPath);
+
 		header("Location: $successPage");
 	}
 	else

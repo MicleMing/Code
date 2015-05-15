@@ -48,6 +48,13 @@
                 $this->delDirAndFile($dirName);
             }
         }
+
+        /**
+         * 查看详情，其实就是设置session['file']
+         */
+        public function detailTask ($file) {
+            $_SESSION['file'] = $file;
+        }
     }
 
     $taskInfo = new TaskInfo();
@@ -59,6 +66,11 @@
         echo json_encode($isSuccess);
         exit();
     }
+
+/*    if (isset($_POST['taskDetail'])) {
+        $key = $_POST['taskDetail'];
+        
+    }*/
 
     $key = array('userId' => $_SESSION['userId']);
     $tasks = $taskInfo->getTaskInfo($key);

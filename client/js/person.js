@@ -15,7 +15,7 @@ $(function () {
 				str += '<td>' + new Date(parseInt(item.time)*1000).toLocaleString() + '</td>';
 				str += '<td>' + item.uri + '</td>';
 				str += '<td>' + item.uri + '</td>';
-				str += '<td><span class="remove" data-item='+item.time+'>删除</span><span><a href="./detail.php">查看详情</a></span></td>';
+				str += '<td><span class="remove" data-item='+item.time+'>删除</span><span><a href="./detail.php?item='+item.time+'">查看详情</a></span></td>';
 				str += '</tr>'
 			});
 			$('.tbody').html(str);

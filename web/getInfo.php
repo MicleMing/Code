@@ -4,6 +4,7 @@
 
 		public static $baseUrl = 'E:/graduation/project/CodeDoctor/upload/localUpload/';
 		public static $jshintPath = '/jshint.json';
+		public static $fecsPath = '/fecs.json';
 		/**
 		 * 获取源代码
 		 * @param  {string} $filePath 文件路径
@@ -32,6 +33,23 @@
 			return $filter;
 		}
 
+		public function readfecsJson ($jsonPath, $fileName) {
+			$content = json_decode(file_get_contents($jsonPath));
+			$filter = array();
+			foreach ($content as $item) {
+				if (is_object($item) && property_exists($item, 'fileName')) {
+					if (strcasecmp(str_replace('/', '\\', $fileName),$item->fileName) == 0) {
+						$filter = $item;
+					}
+				}
+			}
+			return $filter;
+		}
+
+		/**
+		 * 由于格式化文件多时，如果全部一起格式化，会产生大量
+		 */
+
 	}
 
 	$getInfo = new GetInfo();
@@ -43,11 +61,17 @@
 	//jshint 信息
 	$jsHintPath = GetInfo::$baseUrl.$key.GetInfo::$jshintPath;
 
+	//fecs 信息
+	$fecsJson = GetInfo::$baseUrl.$key.GetInfo::$fecsPath;
+
 	//源代码
 	$code = $getInfo->codeSource($filePath);
 	//jshint 执行信息
 	$codeInfo = $getInfo->readJshintJson($jsHintPath, $filePath);
 
+	//fecs执行信息
+	$fecsInfo = $getInfo->readfecsJson($fecsJson, $_POST['path']);
 
-	$result = array('code'=>$code, 'codeInfo'=>$codeInfo);
+
+	$result = array('code'=>$code, 'codeInfo'=>$codeInfo, 'fecsInfo' => $fecsInfo);
 	echo json_encode($result);

@@ -40,8 +40,20 @@ $(function(){
     // tree
     !function(){
         // tree
+        var search = location.search.substring(1);
+        var ret = search.split('&');
+        var obj = {};
+        ret.forEach(function (item) {
+            var temp = item.split('=');
+            var key = temp[0];
+            obj[key] = temp[1];
+        });
+        var checkUrl = 'http://localhost/CodeDoctor/web/detail.php';
+        if (obj['item']) {
+            checkUrl = checkUrl+'?item='+obj['item'];
+        }
         $.ajax({
-            url: "http://localhost/CodeDoctor/web/check.php",
+            url: checkUrl,
             type: "GET",
             dataType: "json"
         })
@@ -96,7 +108,7 @@ $(function(){
 
         var editors = util.map({
             'jshint': $('#jshint-code'),
-            'jscs': $('#jscs-code')
+            'fecs': $('#jscs-code')
         }, function(dom, name){
             var editor = ace.edit(dom[0]);
 
@@ -109,6 +121,7 @@ $(function(){
                 var ext = util.getExt(data.path),
                     syntaxMode = syntaxMap[ext] || '';
 
+                //jshint fecs
                 $.ajax(data.url, {
                     dataType: 'json',
                     type: 'POST',
@@ -116,19 +129,35 @@ $(function(){
                         path: data.path
                     },
                     success: function(data){
-                        util.forEach(editors, function(editor){
-                            var annotationArr = [];
-                            data.codeInfo.forEach(function (item) {
-                                annotationArr.push({
-                                    row: item.row - 1,
-                                    html: 'row' + ':' + item.row + ';col ' + item.col + ':' +item.ression,
-                                    type: 'error'
-                                });
-                            })
+                        util.forEach(editors, function(editor, index){
                             editor.setValue(data.code);
                             editor.navigateTo(0, 0);
                             editor.session.setMode(syntaxMode);
-                            editor.session.setAnnotations(annotationArr);
+                            if(index === 'jshint') {
+                                var annotationArr = [];
+                                data.codeInfo.forEach(function (item) {
+                                    annotationArr.push({
+                                        row: item.row - 1,
+                                        html: 'row' + ':' + item.row + ';col ' + item.col + ':' +item.ression,
+                                        type: 'error'
+                                    });
+                                })
+
+                                editor.session.setAnnotations(annotationArr);
+                            }
+
+                            if(index === 'fecs') {
+                                var annotationArr = [];
+                                data.fecsInfo.warn.forEach(function (item) {
+                                    annotationArr.push({
+                                        row: item.row -1,
+                                        html: 'row' + ':' + item.row + ';col ' + item.col + ':' +item.ression,
+                                        type: 'warning'
+                                    });
+                                });
+                                editor.session.setAnnotations(annotationArr);
+                            }
+                            
                         });
                     }
                 });

@@ -106,9 +106,11 @@
 
 		if($_SESSION['role'] == 1) {
 			$url = "../html/configOrg.php";
-			header("Location: $url");
+			//header("Location: $url");
 		}elseif ($_SESSION['role'] == 0) {
 			$url = "../html/index.php";
+			echo json_encode($url);
+			//header("Location: $url");
 		}
 
 /*		echo json_encode([

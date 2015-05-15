@@ -16,8 +16,8 @@
 	<div id="detail-wrapper" class="detail-wrapper">
 		<div id="code-blocks" class="code-blocks">
 			<ul class="code-tabs">
-				<li class="code-tab"><a href="#jshint-block">JSHint</a></li>
-				<li class="code-tab"><a href="#jscs-block">JSCS</a></li>
+				<li class="code-tab"><a href="#jshint-block">代码语法检查</a></li>
+				<li class="code-tab"><a href="#jscs-block">代价格式检查</a></li>
 				<li class="code-tab"><a href="#formatted-diff-block">Formatted Diff</a></li>
 			</ul>
 			<div id="jshint-block" class="detail-block">
