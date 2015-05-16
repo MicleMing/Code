@@ -12,6 +12,7 @@
 		 */
 		public function codeSource ($filePath) {
 			$content = file_get_contents($filePath);
+			//var_dump($content);
 			return $content;
 		}
 		/**
@@ -55,7 +56,7 @@
 	$getInfo = new GetInfo();
 
 	//源文件路径
-	$filePath = GetInfo::$baseUrl.$_POST['path'];
+	$filePath = GetInfo::$baseUrl.str_replace('\\', '/', $_POST['path']);
 	//项目文件夹1433434
 	$key = explode('/', $_POST['path'])[0];
 	//jshint 信息
@@ -66,6 +67,7 @@
 
 	//源代码
 	$code = $getInfo->codeSource($filePath);
+	//$code = $getInfo->codeSource("E:/graduation/project/CodeDoctor/upload/localUpload/1431764379/1/jshint/php.js");
 	//jshint 执行信息
 	$codeInfo = $getInfo->readJshintJson($jsHintPath, $filePath);
 

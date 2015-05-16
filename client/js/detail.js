@@ -168,7 +168,7 @@ $(function(){
     }();
 
     // diff block
-    !function(){
+/*    !function(){
         var compare = diff.compare;
 
         var render = util.render;
@@ -404,6 +404,6 @@ $(function(){
         });
 
         formattedDiffBlock.init($('#formatted-diff-code'), 'aaa\nbbb\nccbdekf', 'bbb\nccc9832');
-    }();
+    }();*/
 
 });
