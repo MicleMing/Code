@@ -45,7 +45,13 @@
     // event (on, un, fire, obsevable)
 
     var on = function(name, handler) {
-        (this._list[name] = this._list[name] || []).push(handler);
+        var self = this;
+        var name = name.split(' ');
+        name.forEach(function (item) {
+            if (item !== '') {
+                (self._list[item] = self._list[item] || []).push(handler);
+            }
+        });  
     };
 
     var un = function(name, handler) {

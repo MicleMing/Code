@@ -1,8 +1,20 @@
 $(function(){
 
     // global observer
+    var storage = window.sessionStorage;
     var observer = util.observer;
-    var baseUrl = "http://localhost/CodeDoctor/upload/localUpload/"
+    var baseUrl = "http://localhost/CodeDoctor/upload/localUpload/";
+    var prefix = 'CODEDOCTOR_';
+
+    //当检查新项目的时候，先清空sessionStorage，防止storage过大
+/*    if ((/(person\.php)$/g).test(document.referrer)) {
+        for (var i = 0, len = storage.length; i < len; i++ ) {
+            var key = storage.key(i);
+            if (key.substring(0, prefix.length) === prefix) {
+                storage.removeItem(key);
+            }
+        }
+    }*/
 
     // layout
     !function(){
@@ -10,8 +22,8 @@ $(function(){
         var detailWrapper = $('#detail-wrapper');
 
         var expandDetail = function(){
-            menuWrapper.css('width', '9%');
-            detailWrapper.css('marginLeft', '10%');
+            menuWrapper.css('width', '15%');
+            detailWrapper.css('marginLeft', '16%');
         },
             collapseDetail = function(){
             menuWrapper.css('width', '28%');
@@ -30,6 +42,9 @@ $(function(){
             switch(data.to){
             case 'formatted-diff':
                 expandDetail();
+                observer.fire('diff-checkout', {
+                    path: storage.getItem(prefix + 'currenFile')
+                });
                 break;
 
             default:;
@@ -51,6 +66,35 @@ $(function(){
         var checkUrl = 'http://localhost/CodeDoctor/web/detail.php';
         if (obj['item']) {
             checkUrl = checkUrl+'?item='+obj['item'];
+
+            var fileKey = storage.getItem('fileKey');
+            if (fileKey) {
+                //加载不同的项目，清除sessionStorage
+                if(fileKey !== obj['item']) {
+                    for (var i = 0; i < storage.length; i++ ) {
+                        var key = storage.key(i);
+                        if (key && key.substring(0, prefix.length) === prefix) {
+                            storage.removeItem(key);
+                            i--;
+                        }
+                    } 
+                    
+                }
+            }
+            //重置filekey
+            storage.setItem('fileKey', obj['item']);
+
+        }
+        else {
+            //从非person.php进入，先清空sessionStorage
+            for (var i = 0; i < storage.length; i++ ) {
+                var key = storage.key(i);
+                if (key && key.substring(0, prefix.length) === prefix) {
+                    storage.removeItem(key);
+                    i--;
+                }
+            } 
+            storage.setItem('fileKey', 'index');
         }
         $.ajax({
             url: checkUrl,
@@ -118,6 +162,10 @@ $(function(){
 
             // file chosen
             observer.on('file-chosen', function(data){
+
+                storage.setItem(prefix+'currenFile', data.path);
+
+                var code = storage.getItem(prefix + data.path);
                 var ext = util.getExt(data.path),
                     syntaxMode = syntaxMap[ext] || '';
 
@@ -129,8 +177,14 @@ $(function(){
                         path: data.path
                     },
                     success: function(data){
+                        var currenFile = storage.getItem(prefix+'currenFile');
                         util.forEach(editors, function(editor, index){
-                            editor.setValue(data.code);
+                            if (code && code !== '') {
+                                editor.setValue(code);
+                            }
+                            else {
+                                editor.setValue(data.code);
+                            }
                             editor.navigateTo(0, 0);
                             editor.session.setMode(syntaxMode);
                             if(index === 'jshint') {
@@ -148,15 +202,27 @@ $(function(){
 
                             if(index === 'fecs') {
                                 var annotationArr = [];
-                                data.fecsInfo.warn.forEach(function (item) {
-                                    annotationArr.push({
-                                        row: item.row -1,
-                                        html: 'row' + ':' + item.row + ';col ' + item.col + ':' +item.ression,
-                                        type: 'warning'
+                                if (data.fecsInfo.warn) {
+                                    data.fecsInfo.warn.forEach(function (item) {
+                                        annotationArr.push({
+                                            row: item.row -1,
+                                            html: 'row' + ':' + item.row + ';col ' + item.col + ':' +item.ression,
+                                            type: 'warning'
+                                        });
                                     });
-                                });
-                                editor.session.setAnnotations(annotationArr);
+                                    editor.session.setAnnotations(annotationArr);
+                                }
                             }
+
+                            editor.commands.addCommand({
+                                name: 'myCommand',
+                                bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
+                                exec: function(editor) {
+                                    var changeCode = editor.getValue();
+                                    storage.setItem(prefix + currenFile, changeCode);
+                                },
+                                readOnly: true // false if this command should not apply in readOnly mode
+                            });
                             
                         });
                     }
@@ -168,11 +234,11 @@ $(function(){
     }();
 
     // diff block
-/*    !function(){
+    !function(){
         var compare = diff.compare;
 
         var render = util.render;
-
+             
         var marks = {
             normal: {
                 title: '',
@@ -394,16 +460,28 @@ $(function(){
             });
         };
 
-        observer.on('file-chosen', function(data){
-            $.when(
-                $.ajax(data.path, {dataType: 'text'}),
+        observer.on('file-chosen diff-checkout', function(data){
+            var path = baseUrl+data.path.replace(/\\/g,'/');
+/*            $.when(
+                $.ajax(path, {dataType: 'text'}),
                 $.ajax(getFormattedPath(data.path), {dataType: 'text'})
             ).done(function(origin, formatted){
                 formattedDiffBlock.setContent(origin[0], formatted[0]);
-            });
+            });*/
+
+            var currenFile = storage.getItem(prefix + 'currenFile');
+            var changeCode = storage.getItem(prefix + currenFile);
+            $.ajax(path, {
+                dataType: 'text',
+                success: function (data) {
+                    formattedDiffBlock.setContent(data, changeCode ? changeCode : data);
+                }
+            })     
         });
 
-        formattedDiffBlock.init($('#formatted-diff-code'), 'aaa\nbbb\nccbdekf', 'bbb\nccc9832');
-    }();*/
+
+
+        formattedDiffBlock.init($('#formatted-diff-code'), '', '');
+    }();
 
 });
