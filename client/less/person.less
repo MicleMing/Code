@@ -22,6 +22,7 @@
 //table
 table {
   background-color: @table-bg;
+
 }
 caption {
   padding-top: @table-cell-padding;
@@ -163,6 +164,7 @@ table col[class*="col-"] {
 table {
   td,
   th {
+    max-width: 120px;
     &[class*="col-"] {
       position: static; // Prevent border hiding in Firefox and IE9-11 (see https://github.com/twbs/bootstrap/issues/11623)
       float: none;
@@ -170,3 +172,4 @@ table {
     }
   }
 }
+

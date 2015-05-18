@@ -1,6 +1,7 @@
 <?php
     include_once './lib/Task.php';
     include_once './lib/CONST.php';
+    include_once './lib/Zip.php';
 
     session_start();
 
@@ -55,6 +56,48 @@
         public function detailTask ($file) {
             $_SESSION['file'] = $file;
         }
+
+        /**
+         * 下载zip文件
+         * @param  [array] $filePath 下载的文件路径
+         */
+        public function getFile ($filePath) {
+
+            HZip::zipDir(substr($filePath, 0, -4), $filePath);
+            //检查文件是否存在
+            if (file_exists($filePath)) {
+                $file = fopen($filePath, 'r');
+                //返回文件类型
+                Header('Content-type: application/octet-stream');
+                //按字节大小返回
+                Header('Accept-Ranges: bytes');
+                //返回文件大小
+                Header('Accept-Length:'.filesize($filePath));
+                //对客户端弹出对话框，提示对应文件名
+                Header('Content-Disposition: attachment;filename='.$filePath);
+
+                //开始传输
+                
+                $buffer = 1024;
+
+                while (!feof($file)) {
+                    $file_data = fread($file, $buffer);
+                    echo $file_data;
+                }
+                fclose($file);
+
+                //删除压缩文件
+                unlink($filePath);
+            }
+            else {
+                echo "<script>alert('error in download file');</script>";
+            }
+        }
+
+        /**
+         * 格式化代码
+         */
+        
     }
 
     $taskInfo = new TaskInfo();
@@ -64,6 +107,12 @@
         $dirName = CONSTANT::uploadUrl.'localUpload/'.$_POST['deleteItem'];
         $isSuccess = $taskInfo->deleteTask($key, $dirName);
         echo json_encode($isSuccess);
+        exit();
+    }
+
+    if (isset($_GET['download'])) {
+        $filePath = CONSTANT::uploadUrl.'localUpload/'.$_GET['download'];
+        $taskInfo->getFile($filePath);
         exit();
     }
 

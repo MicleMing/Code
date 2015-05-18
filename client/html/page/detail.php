@@ -17,7 +17,8 @@
 		<div id="code-blocks" class="code-blocks">
 			<ul class="code-tabs">
 				<li class="code-tab"><a href="#jshint-block">代码语法检查</a></li>
-				<li class="code-tab"><a href="#jscs-block">代价格式检查</a></li>
+				<li class="code-tab"><a href="#jscs-block">代码格式检查</a></li>
+				<li class="code-tab"><a href="#formatted-fix-block">代码实时格式化</a></li>
 				<li class="code-tab"><a href="#formatted-diff-block">Formatted Diff</a></li>
 			</ul>
 			<div id="jshint-block" class="detail-block">
@@ -25,6 +26,9 @@
 			</div>
 			<div id="jscs-block" class="detail-block">
 				<div id="jscs-code" class="code-block editer-wrapper"></div>
+			</div>
+			<div id="formatted-fix-block" class="detail-block">
+				<div id="formatted-fix-code" class="code-block editer-wrapper"></div>
 			</div>
 			<div id="formatted-diff-block" class="detail-block">
 				<div id="formatted-diff-code" class="code-block"></div>

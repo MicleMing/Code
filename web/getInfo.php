@@ -1,4 +1,5 @@
 <?php
+	include_once './lib/CONST.php';
 	class GetInfo 
 	{
 
@@ -34,6 +35,12 @@
 			return $filter;
 		}
 
+		/**
+		 * 获取fecs信息
+		 * @param  [string] $jsonPath 
+		 * @param  [string] $fileName 
+		 * @return [object]           
+		 */
 		public function readfecsJson ($jsonPath, $fileName) {
 			$content = json_decode(file_get_contents($jsonPath));
 			$filter = array();
@@ -47,9 +54,14 @@
 			return $filter;
 		}
 
-		/**
-		 * 由于格式化文件多时，如果全部一起格式化，会产生大量
-		 */
+		public function execFormatter ($filePath) {
+			$formatter = CONSTANT::formatter;
+			exec("node $formatter $filePath",$info,$val);
+			$code = implode('<br>', $info);
+	
+			echo $code;
+			exit();
+		}
 
 	}
 
@@ -57,6 +69,11 @@
 
 	//源文件路径
 	$filePath = GetInfo::$baseUrl.str_replace('\\', '/', $_POST['path']);
+
+	//执行formatter
+	if (isset($_POST['formatter'])) {
+		$getInfo->execFormatter($filePath);
+	}
 	//项目文件夹1433434
 	$key = explode('/', $_POST['path'])[0];
 	//jshint 信息
@@ -73,6 +90,8 @@
 
 	//fecs执行信息
 	$fecsInfo = $getInfo->readfecsJson($fecsJson, $_POST['path']);
+
+
 
 
 	$result = array('code'=>$code, 'codeInfo'=>$codeInfo, 'fecsInfo' => $fecsInfo);

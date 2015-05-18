@@ -4,7 +4,9 @@ $(function(){
     var storage = window.sessionStorage;
     var observer = util.observer;
     var baseUrl = "http://localhost/CodeDoctor/upload/localUpload/";
+    var phpContrlUrl = 'http://localhost/CodeDoctor/web/getInfo.php';
     var prefix = 'CODEDOCTOR_';
+    var isFormatterOnline = false;
 
     //当检查新项目的时候，先清空sessionStorage，防止storage过大
 /*    if ((/(person\.php)$/g).test(document.referrer)) {
@@ -47,7 +49,11 @@ $(function(){
                 });
                 break;
 
-            default:;
+            case 'formatted-fix':
+                isFormatterOnline = true;
+                break;
+
+            default: isFormatterOnline = false;
             }
         });
     }();
@@ -109,6 +115,7 @@ $(function(){
                     url: json
                 },
                 activate: function(event, data){
+
                     var node = data.node,
                         //path = baseUrl + key + '/' + node.key;
                         path = key + '/' + node.key
@@ -184,6 +191,7 @@ $(function(){
                             }
                             else {
                                 editor.setValue(data.code);
+                                console.log(data.code);
                             }
                             editor.navigateTo(0, 0);
                             editor.session.setMode(syntaxMode);
@@ -214,6 +222,8 @@ $(function(){
                                 }
                             }
 
+
+
                             editor.commands.addCommand({
                                 name: 'myCommand',
                                 bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
@@ -231,6 +241,35 @@ $(function(){
 
             return editor;
         });
+
+        //js 格式化editor单独列出来
+        var formatterEditor = ace.edit('formatted-fix-code');
+        formatterEditor.setTheme('ace/theme/monokai');
+        formatterEditor.session.setTabSize(4);
+        formatterEditor.session.setOption("useWorker", false);
+        formatterEditor.session.setMode(syntaxMap['js']);
+        formatterEditor.setValue('aaa');
+        observer.on('file-chosen', function(data){
+            if (isFormatterOnline) {
+                $.ajax({
+                    url: phpContrlUrl,
+                    type: 'POST',
+                    data: {
+                        path: data.path,
+                        formatter: true
+                    },
+                    success: function (data) {
+                        //var data = JSON.parse(data);
+                        formatterEditor.setValue(data);
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            }
+        });
+
+
     }();
 
     // diff block
